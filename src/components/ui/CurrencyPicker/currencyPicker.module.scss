@@ -1,0 +1,147 @@
+.popover-button {
+  background-color: var(--Neutral-500);
+  display: flex;
+  padding: 8px 12px;
+  gap: 8px;
+  width: 100%;
+  border-radius: 12px;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  border: 1px var(--Neutral-400) solid;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--Neutral-600);
+  }
+
+  &:active {
+    background-color: var(--Neutral-400);
+  }
+
+  .button-flags {
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+  }
+
+  .button-text {
+    font-size: 14px;
+    color: var(--Neutral-50);
+  }
+
+  .button-chevron {
+    width: 12px;
+  }
+}
+
+.popover-content {
+  width: 311px;
+  max-height: 500px;
+  overflow-y: auto;
+
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--Neutral-400);
+  background-color: var(--Neutral-500);
+  color: var(--Neutral-50);
+
+  scrollbar-width: thin;
+}
+
+.search-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  height: 50px;
+  min-height: 50px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+
+  padding: 0 16px;
+  border: 1px solid var(--Neutral-300);
+  border-radius: 8px;
+  background-color: var(--Neutral-500);
+
+  .search-icon {
+    height: 20px;
+  }
+
+  .search-input {
+    width: 100%;
+    border: 0;
+    outline: none;
+    color: var(--Neutral-50);
+    font-size: 12px;
+    background: transparent;
+
+    &::placeholder {
+      color: var(--Neutral-200);
+    }
+  }
+}
+
+.section {
+  .section-header {
+    font-weight: 700;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--Neutral-500);
+    color: var(--Neutral-200);
+    font-size: 12px;
+  }
+
+  .currency-list {
+    display: flex;
+    flex-direction: column;
+
+    .currency-option {
+      display: grid;
+      grid-template-columns: 32px 56px 1fr 24px;
+      padding: 16px 12px;
+
+      align-items: center;
+      color: var(--Neutral-50);
+      cursor: pointer;
+      border-radius: 6px;
+      text-align: start;
+      width: 100%;
+
+      &:hover {
+        background-color: var(--Neutral-700);
+      }
+
+      &:active {
+        background-color: var(--Neutral-600);
+      }
+
+      .currency-flag {
+        width: 20px;
+        height: 20px;
+        border-radius: 999px;
+      }
+
+      .currency-code {
+        font-size: 14px;
+        color: var(--Neutral-50);
+      }
+
+      .currency-name {
+        font-size: 12px;
+        color: var(--Neutral-200);
+      }
+
+      .selected-icon {
+        width: 20px;
+        height: 20px;
+        color: var(--Neutral-50);
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import { Input as InputPrimitive } from "@base-ui/react/input";
 import classes from "./inputField.module.css";
+import { CurrencyPicker } from "../CurrencyPicker/currencyPicker";
 
 function Label({ className, ...props }: React.ComponentProps<"label">) {
   return (
@@ -47,7 +48,7 @@ export function InputField({
           className={`${classes.input} ${receive ? classes.receive : ""} ${className}`}
           {...props}
         />
-        <div>DPPH</div>
+        <CurrencyPicker />
       </div>
     </Field>
   );
