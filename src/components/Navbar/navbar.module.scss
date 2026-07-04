@@ -1,0 +1,29 @@
+.navbar-main {
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media screen and (max-width: 500px) {
+    padding: 8px 12px;
+  }
+
+  .logo-image {
+    width: 139px;
+    height: 25px;
+
+    @media screen and (max-width: 500px) {
+      width: 100px;
+      height: 20px;
+    }
+  }
+
+  .navbar-text {
+    font-size: 14px;
+    color: var(--Neutral-200);
+
+    @media screen and (max-width: 500px) {
+      font-size: 10px;
+    }
+  }
+}

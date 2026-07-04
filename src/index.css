@@ -99,6 +99,7 @@
 body {
   margin: 0;
   font-family: "JetBrains Mono", monospace;
+  background-color: var(--Neutral-900);
 }
 
 @theme inline {
