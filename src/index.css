@@ -7,24 +7,29 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --Neutral-900: #0A0A0A;
+  --Neutral-900: #0a0a0a;
   --Neutral-700: #171719;
   --Neutral-600: #202022;
-  --Neutral-500: #2E2E2E;
+  --Neutral-500: #2e2e2e;
   --Neutral-400: #3d3d3d;
   --Neutral-300: #454547;
-  --Neutral-200: #9D9D9D;
-  --Neutral-100: #C6C6C6;
-  --Neutral-50: #FFFFFF;
+  --Neutral-200: #9d9d9d;
+  --Neutral-100: #c6c6c6;
+  --Neutral-50: #ffffff;
 
-  --lime-500: #CEF739;
+  --lime-500: #cef739;
   --lime-800: #283300;
 
-  --green-500: #42EB05;
+  --green-500: #42eb05;
 
-  --red-500: #FF4141;
+  --red-500: #ff4141;
 
   font-family: "JetBrains Mono", monospace;
+
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 20px;
+  --spacing-xl: 32px;
 
   --background: oklch(1 0 0);
 
@@ -98,7 +103,7 @@ body {
 
 @theme inline {
   --font-heading: var(--font-mono);
-  --font-mono: 'JetBrains Mono Variable', monospace;
+  --font-mono: "JetBrains Mono Variable", monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);

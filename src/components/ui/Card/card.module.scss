@@ -1,0 +1,37 @@
+.card {
+  padding: var(--spacing-md);
+  background-color: var(--Neutral-600);
+  border: 1px solid var(--Neutral-600);
+  border-radius: var(--spacing-lg);
+  color: var(--Neutral-50);
+  width: 100%;
+
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+
+    h3 {
+      color: var(--Neutral-50);
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      gap: var(--spacing-md);
+      align-items: center;
+
+      p {
+        color: var(--Neutral-50);
+
+        &.green {
+          color: var(--green-500);
+        }
+
+        &.red {
+          color: var(--red-500);
+        }
+      }
+    }
+  }
+}
