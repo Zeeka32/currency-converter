@@ -1,11 +1,11 @@
 .field {
-  background-color: var(--Neutral-500);
+  background-color: var(--Neutral-600);
   display: flex;
   flex-direction: column;
   padding: 20px;
   gap: 16px;
   border-radius: 20px;
-
+  border: 1px var(--Neutral-400) solid;
   .label {
     color: var(--Neutral-100);
     font-size: 14px;
@@ -19,7 +19,6 @@
 
     .input {
       color: var(--Neutral-50);
-      width: 100%;
       font-size: 40px;
 
       outline: none;
