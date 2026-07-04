@@ -1,0 +1,31 @@
+.card {
+  padding: var(--spacing-md);
+  background-color: var(--Neutral-600);
+  border: 1px solid var(--Neutral-600);
+  border-radius: var(--spacing-lg);
+  color: var(--Neutral-50);
+  width: 100%;
+}
+.card .stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+.card .stack h3 {
+  color: var(--Neutral-50);
+}
+.card .stack .container {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+.card .stack .container p {
+  color: var(--Neutral-50);
+}
+.card .stack .container p.green {
+  color: var(--green-500);
+}
+.card .stack .container p.red {
+  color: var(--red-500);
+}/*# sourceMappingURL=card.module.css.map */
