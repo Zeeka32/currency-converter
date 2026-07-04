@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
+
 import { InputField } from "./inputField";
 import { formatNumberInput } from "@/lib/formatNumbers";
 
@@ -11,26 +12,79 @@ function NumberInputStory(args: React.ComponentProps<typeof InputField>) {
   );
 
   return (
-    <InputField
-      {...args}
-      value={value}
-      inputMode="decimal"
-      onChange={(event) => {
-        setValue(formatNumberInput(event.target.value));
+    <div
+      style={{
+        maxWidth: "420px",
+        minHeight: "520px",
+        padding: "40px",
       }}
-    />
+    >
+      <InputField
+        {...args}
+        value={value}
+        inputMode="decimal"
+        onChange={(event) => {
+          setValue(formatNumberInput(event.target.value));
+        }}
+      />
+    </div>
+  );
+}
+
+function MultipleFieldsStory() {
+  const [sendValue, setSendValue] = useState("");
+  const [receiveValue, setReceiveValue] = useState("");
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: "16px",
+        maxWidth: "100%",
+        minHeight: "520px",
+        padding: "40px",
+        alignItems: "flex-start",
+      }}
+    >
+      <InputField
+        id="send"
+        label="SEND"
+        placeholder="0"
+        value={sendValue}
+        inputMode="decimal"
+        onChange={(event) => {
+          setSendValue(formatNumberInput(event.target.value));
+        }}
+      />
+
+      <InputField
+        id="receive"
+        label="RECEIVE"
+        placeholder="0"
+        receive
+        value={receiveValue}
+        inputMode="decimal"
+        onChange={(event) => {
+          setReceiveValue(formatNumberInput(event.target.value));
+        }}
+      />
+    </div>
   );
 }
 
 const meta = {
   title: "Components/InputField",
   component: InputField,
+  parameters: {
+    layout: "fullscreen",
+  },
   args: {
-    id: "search",
-    label: "SEARCH",
+    id: "send",
+    label: "SEND",
     placeholder: "0",
     defaultValue: "",
     disabled: false,
+    receive: false,
   },
   argTypes: {
     id: {
@@ -49,6 +103,10 @@ const meta = {
     },
     disabled: {
       control: "boolean",
+    },
+    receive: {
+      control: "boolean",
+      description: "Applies the receive input style",
     },
     className: {
       table: {
@@ -75,6 +133,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+export const Receive: Story = {
+  args: {
+    id: "receive",
+    label: "RECEIVE",
+    receive: true,
+  },
+};
+
 export const WithThousands: Story = {
   args: {
     id: "thousands",
@@ -91,6 +157,15 @@ export const WithDecimal: Story = {
   },
 };
 
+export const ReceiveWithDecimal: Story = {
+  args: {
+    id: "receive-decimal",
+    label: "RECEIVE",
+    defaultValue: "853.3",
+    receive: true,
+  },
+};
+
 export const Disabled: Story = {
   args: {
     id: "disabled",
@@ -100,70 +175,6 @@ export const Disabled: Story = {
   },
 };
 
-export const BlackBackground: Story = {
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          background: "#0A0A0A",
-          padding: "40px",
-          minHeight: "160px",
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
-};
-
-export const MultipleFieldsOnBlackBackground: Story = {
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          background: "#0A0A0A",
-          padding: "40px",
-          minHeight: "220px",
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
-  render: () => {
-    const [searchValue, setSearchValue] = useState("");
-    const [weaponValue, setWeaponValue] = useState("");
-
-    return (
-      <div
-        style={{
-          display: "flex",
-          gap: "16px",
-          maxWidth: "100%",
-        }}
-      >
-        <InputField
-          id="search-dark"
-          label="SEARCH"
-          placeholder="0"
-          value={searchValue}
-          inputMode="decimal"
-          onChange={(event) => {
-            setSearchValue(formatNumberInput(event.target.value));
-          }}
-        />
-
-        <InputField
-          id="weapon-dark"
-          label="WEAPON"
-          placeholder="0"
-          value={weaponValue}
-          inputMode="decimal"
-          onChange={(event) => {
-            setWeaponValue(formatNumberInput(event.target.value));
-          }}
-        />
-      </div>
-    );
-  },
+export const MultipleFields: Story = {
+  render: () => <MultipleFieldsStory />,
 };

@@ -7,8 +7,9 @@ import {
 } from "@/components/ui/Popover/popover";
 
 import { countryIcons, currencies, type Currency } from "@/shared/flagIcons";
-import CheveronDown from "../../../../public/assests/images/icon-chevron-down.svg";
-import SearchIcon from "../../../../public/assests/images/icon-search.svg";
+import CheveronDown from "../../../../public/assets/images/icon-chevron-down.svg";
+import SearchIcon from "../../../../public/assets/images/icon-search.svg";
+import { CheckIcon } from "@phosphor-icons/react";
 
 import classes from "./currencyPicker.module.css";
 
@@ -48,7 +49,7 @@ export function CurrencyPicker() {
   }
 
   return (
-    <div className="flex gap-6">
+    <div className="flex gap-6 min-w-25 max-w-25">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <button className={classes["popover-button"]}>
@@ -156,7 +157,7 @@ function CurrencySection({
 
               <span className={classes["currency-name"]}>{currency.name}</span>
 
-              {/* {selected && <Check className={classes["selected-icon"]} />} */}
+              {selected && <CheckIcon className={classes["selected-icon"]} />}
             </button>
           );
         })}

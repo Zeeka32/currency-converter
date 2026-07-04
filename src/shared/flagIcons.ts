@@ -291,11 +291,6 @@ export const countryIcons = {
     src: "/assets/images/flags/us.webp",
     alt: "United States flag",
   },
-  uy: {
-    label: "Uruguay",
-    src: "/assets/images/flags/uy.webp",
-    alt: "Uruguay flag",
-  },
   za: {
     label: "South Africa",
     src: "/assets/images/flags/za.webp",
@@ -371,7 +366,6 @@ export const currencies = [
   { code: "TRY", name: "Turkish Lira", countryIcon: "tr", popular: false },
   { code: "TWD", name: "New Taiwan Dollar", countryIcon: "tw", popular: false },
   { code: "UAH", name: "Ukrainian Hryvnia", countryIcon: "ua", popular: false },
-  { code: "UYU", name: "Uruguayan Peso", countryIcon: "uy", popular: false },
   { code: "ZAR", name: "South African Rand", countryIcon: "za", popular: false },
 ] as const satisfies readonly Currency[];
 export type CurrencyCode = (typeof currencies)[number]["code"];

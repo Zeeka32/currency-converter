@@ -20,9 +20,14 @@
     .input {
       color: var(--Neutral-50);
       font-size: 40px;
+      width: 100%;
 
       outline: none;
       box-shadow: none;
+
+      @media screen and (max-width: 768px) {
+        font-size: 32px;
+      }
 
       &:focus {
         outline: none;
@@ -40,6 +45,10 @@
 
       &.receive {
         color: var(--lime-500);
+
+        &:disabled {
+          color: var(--color-lime-700);
+        }
       }
     }
   }

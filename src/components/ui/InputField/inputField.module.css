@@ -20,8 +20,14 @@
 .field .input-area .input {
   color: var(--Neutral-50);
   font-size: 40px;
+  width: 100%;
   outline: none;
   box-shadow: none;
+}
+@media screen and (max-width: 768px) {
+  .field .input-area .input {
+    font-size: 32px;
+  }
 }
 .field .input-area .input:focus {
   outline: none;
@@ -36,4 +42,7 @@
 }
 .field .input-area .input.receive {
   color: var(--lime-500);
+}
+.field .input-area .input.receive:disabled {
+  color: var(--color-lime-700);
 }/*# sourceMappingURL=inputField.module.css.map */

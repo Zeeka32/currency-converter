@@ -31,7 +31,7 @@ export function InputField({
   className = "",
   id,
   label,
-  receive = true,
+  receive = false,
   ...props
 }: React.ComponentProps<"input"> & {
   label: string;
