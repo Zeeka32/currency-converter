@@ -1,5 +1,5 @@
 import classes from "./navbar.module.css";
-import Logo from "../../../public/assests/images/logo.svg";
+import Logo from "../../../public/assets/images/logo.svg";
 import { useMediaQuery } from "usehooks-ts";
 
 function Navbar() {

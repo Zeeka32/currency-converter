@@ -58,14 +58,6 @@ const MultiConvertTable = ({
     });
   }
 
-  if (!rows.length) {
-    return (
-      <div className={`${classes.card} ${className}`} {...props}>
-        <h2>No Available Countries Currently</h2>
-      </div>
-    );
-  }
-
   return (
     <div className={`${classes.table} ${className}`} {...props}>
       <div className={classes.header}>
