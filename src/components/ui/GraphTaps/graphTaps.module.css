@@ -1,0 +1,22 @@
+.tabs {
+  display: flex;
+  background-color: var(--Neutral-700);
+  border-radius: 8px;
+}
+.tabs .button {
+  color: var(--Neutral-50);
+  padding: 12px 16px;
+  font-size: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s background-color ease;
+}
+.tabs .button:hover {
+  background-color: var(--Neutral-500);
+}
+.tabs .button:active {
+  background-color: var(--Neutral-600);
+}
+.tabs .button.active {
+  background-color: var(--Neutral-500);
+}/*# sourceMappingURL=graphTaps.module.css.map */

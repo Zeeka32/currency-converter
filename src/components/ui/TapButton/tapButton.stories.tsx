@@ -1,10 +1,8 @@
-// src/components/Button/Button.stories.tsx
-
 import type { Meta, StoryObj } from "@storybook/react";
 import { TapButton } from "./tapButton";
 
 const meta = {
-  title: "Components/Button",
+  title: "Components/tapButton",
   component: TapButton,
   tags: ["autodocs"],
   args: {
