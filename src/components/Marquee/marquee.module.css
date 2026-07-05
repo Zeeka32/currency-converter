@@ -1,0 +1,38 @@
+.marquee {
+  display: flex;
+  gap: var(--spacing-sm);
+  overflow: hidden;
+  align-items: center;
+  width: 100%;
+  background-color: var(--Neutral-700);
+  position: relative;
+}
+.marquee .header {
+  background-color: var(--lime-500);
+  color: var(--Neutral-900);
+  font-size: 12px;
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-sm);
+  white-space: nowrap;
+  position: relative;
+  z-index: 100;
+}
+.marquee .track {
+  display: flex;
+  gap: 16px;
+  width: -moz-max-content;
+  width: max-content;
+  animation: scroll 20s linear infinite;
+}
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}/*# sourceMappingURL=marquee.module.css.map */
