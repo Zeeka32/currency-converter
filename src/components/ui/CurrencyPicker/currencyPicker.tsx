@@ -6,7 +6,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/Popover/popover";
 
-import { countryIcons, currencies, type Currency } from "@/shared/flagIcons";
+import {
+  countryIcons,
+  currencies,
+  type Currency,
+} from "@/shared/constants/flagIcons";
 import CheveronDown from "../../../../public/assets/images/icon-chevron-down.svg";
 import SearchIcon from "../../../../public/assets/images/icon-search.svg";
 import { CheckIcon } from "@phosphor-icons/react";
