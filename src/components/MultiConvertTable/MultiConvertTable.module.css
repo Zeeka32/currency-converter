@@ -39,6 +39,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  gap: var(--spacing-md);
 }
 
 .card {
