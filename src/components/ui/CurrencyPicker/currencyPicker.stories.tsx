@@ -3,6 +3,7 @@ import { CurrencyPicker } from "./currencyPicker";
 
 const meta = {
   title: "Components/CurrencyPicker",
+  tags: ["autodocs"],
   component: CurrencyPicker,
   decorators: [
     (Story) => (

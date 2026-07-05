@@ -6,6 +6,7 @@ import { TapButton } from "./tapButton";
 const meta = {
   title: "Components/Button",
   component: TapButton,
+  tags: ["autodocs"],
   args: {
     children: "HISTORY",
     selected: false,

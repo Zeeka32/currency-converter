@@ -78,6 +78,7 @@ const meta = {
   parameters: {
     layout: "fullscreen",
   },
+  tags: ["autodocs"],
   args: {
     id: "send",
     label: "SEND",
