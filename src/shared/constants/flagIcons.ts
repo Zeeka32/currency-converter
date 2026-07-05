@@ -350,7 +350,12 @@ export const currencies = [
   { code: "NGN", name: "Nigerian Naira", countryIcon: "ng", popular: false },
   { code: "NOK", name: "Norwegian Krone", countryIcon: "no", popular: false },
   { code: "NPR", name: "Nepalese Rupee", countryIcon: "np", popular: false },
-  { code: "NZD", name: "New Zealand Dollar", countryIcon: "nz", popular: false },
+  {
+    code: "NZD",
+    name: "New Zealand Dollar",
+    countryIcon: "nz",
+    popular: false,
+  },
   { code: "OMR", name: "Omani Rial", countryIcon: "om", popular: false },
   { code: "PEN", name: "Peruvian Sol", countryIcon: "pe", popular: false },
   { code: "PHP", name: "Philippine Peso", countryIcon: "ph", popular: false },
@@ -366,6 +371,12 @@ export const currencies = [
   { code: "TRY", name: "Turkish Lira", countryIcon: "tr", popular: false },
   { code: "TWD", name: "New Taiwan Dollar", countryIcon: "tw", popular: false },
   { code: "UAH", name: "Ukrainian Hryvnia", countryIcon: "ua", popular: false },
-  { code: "ZAR", name: "South African Rand", countryIcon: "za", popular: false },
+  {
+    code: "ZAR",
+    name: "South African Rand",
+    countryIcon: "za",
+    popular: false,
+  },
 ] as const satisfies readonly Currency[];
 export type CurrencyCode = (typeof currencies)[number]["code"];
+export type CurrencyName = (typeof currencies)[number]["name"];
