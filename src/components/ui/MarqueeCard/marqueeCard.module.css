@@ -1,0 +1,32 @@
+.change-number {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.change-number p {
+  font-size: 12px;
+  color: var(--Neutral-200);
+}
+.change-number p.green {
+  color: var(--green-500);
+}
+.change-number p.red {
+  color: var(--red-500);
+}
+
+.card {
+  width: 100%;
+  font-size: 12px;
+  color: var(--Neutral-50);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm);
+  gap: var(--spacing-sm);
+  border-right: 1px solid var(--Neutral-500);
+}
+.card .ratio {
+  color: var(--Neutral-200);
+}/*# sourceMappingURL=marqueeCard.module.css.map */
