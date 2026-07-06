@@ -1,23 +1,31 @@
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import classes from "./button.module.css";
+import type { ReactNode } from "react";
 
 function Button({
   className = "",
   favorited = false,
-  icon = "",
+  icon,
   children,
   ...props
 }: ButtonPrimitive.Props & {
   favorited?: boolean;
-  icon?: string;
+  icon?: string | ReactNode;
 }) {
   return (
     <ButtonPrimitive
       data-slot="button"
-      className={`${classes.button} ${favorited ? classes.favorited : ""} ${className}`}
+      className={`${classes.button} ${
+        favorited ? classes.favorited : ""
+      } ${className}`}
       {...props}
     >
-      {icon && <img src={icon} className={classes.icon} alt="button icon" />}
+      {typeof icon === "string" && icon && (
+        <img src={icon} className={classes.icon} alt="button icon" />
+      )}
+
+      {typeof icon !== "string" && icon}
+
       {children}
     </ButtonPrimitive>
   );

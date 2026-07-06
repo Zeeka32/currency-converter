@@ -1,8 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "./button";
+import { StarIcon as PhosphorStarIcon } from "@phosphor-icons/react";
 
 const STAR_ICON = "/assets/images/icon-star.svg";
-const STAR_FILLED_ICON = "/assets/images/icon-star-filled.svg";
+const STAR_FILLED_ICON = (
+  <PhosphorStarIcon weight="fill" size={16} color="#000000" />
+);
 
 const meta = {
   title: "Components/Button",
@@ -11,15 +14,13 @@ const meta = {
   args: {
     children: "Button",
     favorited: false,
-    icon: "",
   },
   argTypes: {
     favorited: {
       control: "boolean",
     },
     icon: {
-      control: "select",
-      options: ["", STAR_ICON, STAR_FILLED_ICON],
+      control: false,
     },
     children: {
       control: "text",
@@ -45,7 +46,7 @@ export const Favorited: Story = {
   },
 };
 
-export const StarIcon: Story = {
+export const StarOutlineIcon: Story = {
   args: {
     icon: STAR_ICON,
     favorited: false,
