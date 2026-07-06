@@ -1,0 +1,21 @@
+.history {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+.history .header {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+.history .header .cards {
+  display: flex;
+  gap: var(--spacing-lg);
+  width: 100%;
+}
+.history .header .graph-buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}/*# sourceMappingURL=history.module.css.map */
