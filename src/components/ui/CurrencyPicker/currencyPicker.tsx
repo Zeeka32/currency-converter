@@ -17,11 +17,14 @@ import { CheckIcon } from "@phosphor-icons/react";
 
 import classes from "./currencyPicker.module.css";
 
-export function CurrencyPicker() {
+export function CurrencyPicker({
+  selectedCurrency,
+  setSelectedCurrency,
+}: {
+  selectedCurrency: Currency;
+  setSelectedCurrency: (currency: Currency) => void;
+}) {
   const [open, setOpen] = useState(false);
-  const [selectedCurrency, setSelectedCurrency] = useState<Currency>(
-    currencies[0],
-  );
   const [searchValue, setSearchValue] = useState("");
 
   const selectedCountry = countryIcons[selectedCurrency.countryIcon];

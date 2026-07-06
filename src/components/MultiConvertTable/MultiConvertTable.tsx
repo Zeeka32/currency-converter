@@ -1,23 +1,22 @@
 import { currencies, type CurrencyCode } from "@/shared/constants/flagIcons";
 import classes from "./MultiConvertTable.module.css";
-import { useState, type ComponentProps } from "react";
+import { useMemo, useState } from "react";
 import {
   CurrencyFlag,
   FavoriteButton,
   GenericCurrencyCard,
   StaticNumberStack,
 } from "../ui/CurrencyCard/currencyCard";
+import { useCurrencyConverter } from "@/shared/contexts/currencyConverterContext";
+import { useCurrencies } from "@/shared/api/frankfurter";
 
 type CurrencyFromList = (typeof currencies)[number];
 
-type MultiConvertTableProps = ComponentProps<"div"> & {
-  amount: number;
-  sourceUnit: CurrencyCode;
-  data: {
-    code: CurrencyCode;
-    convertedAmount: number;
-    sourceUnit: number;
-  }[];
+type ApiCurrencyRate = {
+  date: string;
+  base: CurrencyCode;
+  quote: CurrencyCode;
+  rate: number;
 };
 
 type CurrencyRowData = {
@@ -27,27 +26,28 @@ type CurrencyRowData = {
   currency: CurrencyFromList;
 };
 
-const MultiConvertTable = ({
-  amount,
-  sourceUnit,
-  data,
-  className = "",
-  ...props
-}: MultiConvertTableProps) => {
+const MultiConvertTable = () => {
   const [activeCodes, setActiveCodes] = useState<CurrencyCode[]>([]);
 
-  const rows: CurrencyRowData[] = data.flatMap((item): CurrencyRowData[] => {
-    const currency = currencies.find((c) => c.code === item.code);
+  const { amount, sourceCurrency } = useCurrencyConverter();
+  const { data: currencyData = [] } = useCurrencies(sourceCurrency.code);
 
-    if (!currency) return [];
+  const rows: CurrencyRowData[] = useMemo(() => {
+    return (currencyData as ApiCurrencyRate[]).flatMap((item) => {
+      const currency = currencies.find((c) => c.code === item.quote);
 
-    return [
-      {
-        ...item,
-        currency,
-      },
-    ];
-  });
+      if (!currency) return [];
+
+      return [
+        {
+          code: item.quote,
+          convertedAmount: amount * item.rate,
+          sourceUnit: item.rate,
+          currency,
+        },
+      ];
+    });
+  }, [currencyData, amount]);
 
   function handleOnFavoriteClick(code: CurrencyCode) {
     setActiveCodes((prev) => {
@@ -60,11 +60,11 @@ const MultiConvertTable = ({
   }
 
   return (
-    <div className={`${classes.table} ${className}`} {...props}>
+    <div className={classes.table}>
       <div className={classes.header}>
         <div className={classes.left}>
           <h3 className={classes["left-header"]}>MULTI-CURRENCY</h3>
-          <h3>{`${amount} FROM ${sourceUnit}`}</h3>
+          <h3>{`${amount} FROM ${sourceCurrency.code}`}</h3>
         </div>
 
         <div className={classes.right}>
@@ -85,9 +85,10 @@ const MultiConvertTable = ({
           right={
             <div className={classes.container}>
               <StaticNumberStack
-                headerNumber={row.convertedAmount}
-                contentNumber={row.sourceUnit}
-              ></StaticNumberStack>
+                headerNumber={Number(row.convertedAmount.toFixed(2))}
+                contentNumber={Number(row.sourceUnit.toFixed(2))}
+              />
+
               <FavoriteButton
                 active={activeCodes.includes(row.code)}
                 onClick={() => handleOnFavoriteClick(row.code)}

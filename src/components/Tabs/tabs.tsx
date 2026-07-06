@@ -52,9 +52,7 @@ const tabs = [
   {
     value: "compare",
     label: "COMPARE",
-    render: () => (
-      <MultiConvertTable data={mockData} amount={1000} sourceUnit="USD" />
-    ),
+    render: () => <MultiConvertTable />,
   },
   {
     value: "favorite",

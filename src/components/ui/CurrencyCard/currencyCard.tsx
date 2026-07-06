@@ -113,7 +113,7 @@ function StaticNumberStack({ headerNumber, contentNumber }: NumberStackProps) {
     <div className={classes["number-stack"]}>
       <h4>{formatNumberInput(headerNumber.toString())}</h4>
       <span>
-        <p>{formatNumberInput(contentNumber.toString())}</p>
+        <p>@ {formatNumberInput(contentNumber.toString())}</p>
       </span>
     </div>
   );
