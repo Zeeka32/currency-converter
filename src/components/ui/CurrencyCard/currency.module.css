@@ -125,4 +125,14 @@
 .currency-conversion-container .result {
   color: var(--lime-500);
   font-size: 16px;
+}
+
+.log-time-conversion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-lg);
+}
+.log-time-conversion .log-time {
+  color: var(--Neutral-200);
 }/*# sourceMappingURL=currency.module.css.map */

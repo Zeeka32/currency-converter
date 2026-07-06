@@ -8,6 +8,7 @@ import FavoriteTable from "../FavoriteTable/favoriteTable";
 import { Dropdown, type DropdownItem } from "../ui/Dropdown/dropdown";
 
 import classes from "./tabs.module.css";
+import LogTable from "../LogTable/logTable";
 
 const mockData = [
   {
@@ -65,7 +66,7 @@ const tabs = [
     value: "log",
     label: "LOG",
     count: 8,
-    render: () => null,
+    render: () => <LogTable data={mockData} amount={1000} sourceUnit="USD" />,
   },
 ] as const satisfies readonly {
   value: string;

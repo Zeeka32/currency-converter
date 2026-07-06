@@ -139,6 +139,24 @@ function CurrencyConversion({
     </div>
   );
 }
+
+function LogTimeConversion({
+  time,
+  from,
+  to,
+}: {
+  time: number;
+  from: CurrencyCode;
+  to: CurrencyCode;
+}) {
+  return (
+    <div className={classes["log-time-conversion"]}>
+      <p className={classes["log-time"]}>{time}</p>
+      <CurrencyPair from={from} to={to}></CurrencyPair>
+    </div>
+  );
+}
+
 type IconToggleButtonProps = {
   active?: boolean;
   onClick: () => void;
@@ -208,6 +226,7 @@ export {
   CurrencyPair,
   NumberStack,
   CurrencyConversion,
+  LogTimeConversion,
   DiscardFavoriteButton,
   FavoriteButton,
   IconToggleButton,
