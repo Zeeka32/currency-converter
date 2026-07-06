@@ -4,6 +4,7 @@ import { TapButton } from "../ui/TapButton/tapButton";
 import classes from "./tabs.module.css";
 import Card from "../ui/Card/Card";
 import History from "../History/history";
+import FavoriteTable from "../FavoriteTable/favoriteTable";
 
 const mockData = [
   {
@@ -57,7 +58,9 @@ const tabs: { value: TabType; label: string; render: () => React.ReactNode }[] =
     {
       value: "favorite",
       label: "FAVORITES",
-      render: () => <></>,
+      render: () => (
+        <FavoriteTable data={mockData} amount={1000} sourceUnit="USD" />
+      ),
     },
     {
       value: "log",
