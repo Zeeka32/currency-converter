@@ -3,6 +3,7 @@ import MultiConvertTable from "../MultiConvertTable/MultiConvertTable";
 import { TapButton } from "../ui/TapButton/tapButton";
 import classes from "./tabs.module.css";
 import Card from "../ui/Card/Card";
+import History from "../History/history";
 
 const mockData = [
   {
@@ -44,7 +45,7 @@ const tabs: { value: TabType; label: string; render: () => React.ReactNode }[] =
     {
       value: "history",
       label: "HISTORY",
-      render: () => <></>,
+      render: () => <History />,
     },
     {
       value: "compare",
@@ -65,35 +66,9 @@ const tabs: { value: TabType; label: string; render: () => React.ReactNode }[] =
     },
   ];
 
-const cards: {
-  title: string;
-  value: number;
-  change: "normal" | "change" | "%";
-}[] = [
-  {
-    title: "OPEN",
-    value: 0.8516,
-    change: "normal",
-  },
-  {
-    title: "LAST",
-    value: 0.8516,
-    change: "normal",
-  },
-  {
-    title: "CHANGE",
-    value: 0.016,
-    change: "change",
-  },
-  {
-    title: "% CHANGE",
-    value: 0.018,
-    change: "%",
-  },
-];
-
 function Tabs() {
   const [activeTab, setActiveTab] = useState<TabType>("history");
+  const activeComponent = tabs.find((tab) => tab.value === activeTab);
 
   return (
     <div className={classes.tabs}>
@@ -109,7 +84,7 @@ function Tabs() {
         ))}
       </div>
 
-      {tabs.map((tab) => (tab.value === activeTab ? tab.render() : <></>))}
+      {activeComponent?.render()}
     </div>
   );
 }
