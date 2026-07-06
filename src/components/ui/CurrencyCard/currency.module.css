@@ -1,7 +1,7 @@
 .row {
   border-radius: var(--spacing-md);
   border: 0px solid black;
-  background-color: var(--Neutral-500);
+  background-color: var(--Neutral-600);
   display: flex;
   justify-content: space-between;
   align-items: center;

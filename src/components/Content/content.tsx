@@ -3,6 +3,7 @@ import { InputField } from "../ui/InputField/inputField";
 import classes from "./content.module.css";
 import ExchangeIcon from "/assets/images/icon-exchange.svg";
 import { Button } from "../ui/Button/button";
+import Tabs from "../Tabs/tabs";
 
 function Content() {
   return (
@@ -23,9 +24,8 @@ function Content() {
             <Button>LOG CONVERSION</Button>
           </div>
         </div>
-
-        <div></div>
       </div>
+      <Tabs />
     </div>
   );
 }

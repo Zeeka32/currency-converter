@@ -1,0 +1,11 @@
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+
+  .buttons {
+    display: flex;
+    gap: var(--spacing-lg);
+    border-bottom: 1px solid var(--Neutral-500);
+  }
+}
