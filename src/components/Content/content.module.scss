@@ -9,17 +9,27 @@
     padding: 32px 24px;
   }
 
+  @media screen and (max-width: 500px) {
+    padding: 32px 12px;
+  }
+
   .content-header {
     font-size: 20px;
     line-height: 1.2;
   }
 
   .rate-section {
-    border-radius: var(--spacing-lg);
-    background-color: var(--Neutral-700);
     display: grid;
     grid-template-rows: 2fr 1fr;
     gap: var(--spacing-md);
+
+    background-color: var(--Neutral-700);
+    border-radius: var(--spacing-lg);
+
+    @media screen and (max-width: 700px) {
+      display: flex;
+      flex-direction: column;
+    }
 
     .rate-section-top {
       display: flex;
@@ -27,18 +37,34 @@
       gap: var(--spacing-md);
       padding: var(--spacing-lg);
 
+      @media screen and (max-width: 700px) {
+        flex-direction: column;
+      }
+
       .exchange-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+
         background-color: var(--Neutral-500);
         border-radius: var(--spacing-md);
         min-width: 48px;
         min-height: 48px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
 
         &:hover {
-          background-color: var(--Neutral-300);
+          background-color: var(--Neutral-600);
           transition: background-color 300ms ease;
+        }
+
+        &:active:after {
+          content: "";
+          position: absolute;
+          inset: -1px;
+          display: block;
+          box-shadow: 0 0 0 2px var(--lime-500);
+          border-radius: var(--spacing-md);
         }
 
         img {
@@ -55,12 +81,24 @@
       justify-content: space-between;
       align-items: center;
 
-      .bottom-right {
-        display: flex;
-        gap: var(--spacing-md);
+      @media screen and (max-width: 700px) {
+        flex-direction: column;
+        gap: 16px;
       }
 
       .bottom-left {
+        font-size: 12px;
+      }
+
+      .bottom-right {
+        display: flex;
+        gap: var(--spacing-md);
+
+        @media screen and (max-width: 700px) {
+          .button {
+            font-size: 12px;
+          }
+        }
       }
     }
   }

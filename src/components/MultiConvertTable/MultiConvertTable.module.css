@@ -56,6 +56,11 @@
   justify-content: center;
   align-items: center;
 }
+@media screen and (max-width: 640px) {
+  .card {
+    font-size: 14px;
+  }
+}
 .card h2 {
   font-size: var(--font-size-xl);
 }/*# sourceMappingURL=MultiConvertTable.module.css.map */

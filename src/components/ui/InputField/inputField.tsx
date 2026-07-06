@@ -38,14 +38,14 @@ export function InputField({
   receive?: boolean;
 }) {
   return (
-    <Field>
+    <Field className={className}>
       <FieldLabel htmlFor={id}>{label}</FieldLabel>
       <div className={classes["input-area"]}>
         <InputPrimitive
           id={id}
           autoComplete="off"
           type="text"
-          className={`${classes.input} ${receive ? classes.receive : ""} ${className}`}
+          className={`${classes.input} ${receive ? classes.receive : ""}`}
           {...props}
         />
         <CurrencyPicker />

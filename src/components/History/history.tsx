@@ -48,7 +48,7 @@ function History() {
         </div>
       </div>
 
-      <div className="w-full h-[377px] bg-[#202022]">GRAPH</div>
+      <div className="w-full h-94.25 bg-[#202022]">GRAPH</div>
     </div>
   );
 }

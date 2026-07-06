@@ -1,11 +1,16 @@
 .navbar-main {
+  position: sticky;
+  top: 0;
+  z-index: 50;
   display: flex;
   flex-direction: column;
+  transition: background-color 0.2s ease, backdrop-filter 0.2s ease, box-shadow 0.2s ease;
 }
-@media screen and (max-width: 500px) {
-  .navbar-main {
-    padding: 8px 12px;
-  }
+.navbar-main.scrolled {
+  background-color: rgba(11, 13, 16, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 .navbar-main .navbar-top {
   padding: 20px 24px;

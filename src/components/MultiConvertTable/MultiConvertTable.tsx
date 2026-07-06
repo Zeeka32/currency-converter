@@ -5,7 +5,7 @@ import {
   CurrencyFlag,
   FavoriteButton,
   GenericCurrencyCard,
-  NumberStack,
+  StaticNumberStack,
 } from "../ui/CurrencyCard/currencyCard";
 
 type CurrencyFromList = (typeof currencies)[number];
@@ -84,10 +84,10 @@ const MultiConvertTable = ({
           }
           right={
             <div className={classes.container}>
-              <NumberStack
+              <StaticNumberStack
                 headerNumber={row.convertedAmount}
                 contentNumber={row.sourceUnit}
-              ></NumberStack>
+              ></StaticNumberStack>
               <FavoriteButton
                 active={activeCodes.includes(row.code)}
                 onClick={() => handleOnFavoriteClick(row.code)}

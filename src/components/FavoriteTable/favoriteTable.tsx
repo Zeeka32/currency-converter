@@ -10,9 +10,8 @@ import {
 
 type CurrencyFromList = (typeof currencies)[number];
 
-type MultiConvertTableProps = ComponentProps<"div"> & {
-  amount: number;
-  sourceUnit: CurrencyCode;
+type FavoriteTableProps = ComponentProps<"div"> & {
+  sourceCode: CurrencyCode;
   data: {
     code: CurrencyCode;
     convertedAmount: number;
@@ -28,13 +27,14 @@ type CurrencyRowData = {
 };
 
 const FavoriteTable = ({
-  amount,
-  sourceUnit,
+  sourceCode,
   data,
   className = "",
   ...props
-}: MultiConvertTableProps) => {
-  const [activeCodes, setActiveCodes] = useState<CurrencyCode[]>([]);
+}: FavoriteTableProps) => {
+  const [activeCodes, setActiveCodes] = useState<CurrencyCode[]>(
+    data.map((item) => item.code),
+  );
 
   const rows: CurrencyRowData[] = data.flatMap((item): CurrencyRowData[] => {
     const currency = currencies.find((c) => c.code === item.code);
@@ -74,13 +74,14 @@ const FavoriteTable = ({
       {rows.map((row) => (
         <GenericCurrencyCard
           key={row.code}
-          left={<CurrencyPair from="AED" to="AUD" />}
+          left={<CurrencyPair from={sourceCode} to={row.code} />}
           right={
             <div className={classes.container}>
               <NumberStack
                 headerNumber={row.convertedAmount}
                 contentNumber={row.sourceUnit}
-              ></NumberStack>
+              />
+
               <FavoriteButton
                 active={activeCodes.includes(row.code)}
                 onClick={() => handleOnFavoriteClick(row.code)}

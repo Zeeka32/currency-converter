@@ -9,13 +9,31 @@
   gap: var(--spacing-lg);
   align-items: center;
 }
+@media screen and (max-width: 830px) {
+  .history .header {
+    display: flex;
+    flex-direction: column;
+  }
+}
 .history .header .cards {
   display: flex;
   gap: var(--spacing-lg);
   width: 100%;
 }
+@media screen and (max-width: 530px) {
+  .history .header .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
 .history .header .graph-buttons-container {
   display: flex;
   justify-content: flex-end;
   width: 100%;
+}
+@media screen and (max-width: 830px) {
+  .history .header .graph-buttons-container {
+    display: flex;
+    justify-content: flex-start;
+  }
 }/*# sourceMappingURL=history.module.css.map */

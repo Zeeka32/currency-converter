@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
+import { useMediaQuery } from "usehooks-ts";
+
 import MultiConvertTable from "../MultiConvertTable/MultiConvertTable";
 import { TapButton } from "../ui/TapButton/tapButton";
-import classes from "./tabs.module.css";
-import Card from "../ui/Card/Card";
 import History from "../History/history";
 import FavoriteTable from "../FavoriteTable/favoriteTable";
+import { Dropdown, type DropdownItem } from "../ui/Dropdown/dropdown";
+
+import classes from "./tabs.module.css";
 
 const mockData = [
   {
@@ -39,53 +42,76 @@ const mockData = [
   },
 ];
 
-type TabType = "history" | "compare" | "favorite" | "log";
+const tabs = [
+  {
+    value: "history",
+    label: "HISTORY",
+    render: () => <History />,
+  },
+  {
+    value: "compare",
+    label: "COMPARE",
+    render: () => (
+      <MultiConvertTable data={mockData} amount={1000} sourceUnit="USD" />
+    ),
+  },
+  {
+    value: "favorite",
+    label: "FAVORITES",
+    count: 10,
+    render: () => <FavoriteTable data={mockData} sourceCode="USD" />,
+  },
+  {
+    value: "log",
+    label: "LOG",
+    count: 8,
+    render: () => null,
+  },
+] as const satisfies readonly {
+  value: string;
+  label: string;
+  count?: number;
+  render: () => ReactNode;
+}[];
 
-const tabs: { value: TabType; label: string; render: () => React.ReactNode }[] =
-  [
-    {
-      value: "history",
-      label: "HISTORY",
-      render: () => <History />,
-    },
-    {
-      value: "compare",
-      label: "COMPARE",
-      render: () => (
-        <MultiConvertTable data={mockData} amount={1000} sourceUnit="USD" />
-      ),
-    },
-    {
-      value: "favorite",
-      label: "FAVORITES",
-      render: () => (
-        <FavoriteTable data={mockData} amount={1000} sourceUnit="USD" />
-      ),
-    },
-    {
-      value: "log",
-      label: "LOG",
-      render: () => <></>,
-    },
-  ];
+type TabType = (typeof tabs)[number]["value"];
+
+const dropdownItems: DropdownItem[] = tabs.map(({ value, label }) => ({
+  value,
+  label,
+}));
 
 function Tabs() {
   const [activeTab, setActiveTab] = useState<TabType>("history");
+  const isDesktop = useMediaQuery("(min-width: 520px)");
+
   const activeComponent = tabs.find((tab) => tab.value === activeTab);
+
+  function handleTabChange(value: string) {
+    setActiveTab(value as TabType);
+  }
 
   return (
     <div className={classes.tabs}>
-      <div className={classes.buttons}>
-        {tabs.map((tab) => (
-          <TapButton
-            key={tab.value}
-            selected={activeTab === tab.value}
-            onClick={() => setActiveTab(tab.value)}
-          >
-            {tab.label}
-          </TapButton>
-        ))}
-      </div>
+      {isDesktop ? (
+        <div className={classes.buttons}>
+          {tabs.map((tab) => (
+            <TapButton
+              key={tab.value}
+              selected={activeTab === tab.value}
+              onClick={() => setActiveTab(tab.value)}
+            >
+              {tab.label}
+            </TapButton>
+          ))}
+        </div>
+      ) : (
+        <Dropdown
+          items={dropdownItems}
+          selectedValue={activeTab}
+          onSelectedValueChange={handleTabChange}
+        />
+      )}
 
       {activeComponent?.render()}
     </div>

@@ -66,6 +66,10 @@ $xl: 1280px; // desktops
   justify-content: center;
   align-items: center;
 
+  @media screen and (max-width: $sm) {
+    font-size: 14px;
+  }
+
   h2 {
     font-size: var(--font-size-xl);
   }
