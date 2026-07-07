@@ -1,6 +1,6 @@
 import { currencies, type CurrencyCode } from "@/shared/constants/flagIcons";
 import classes from "./MultiConvertTable.module.css";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import {
   CurrencyFlag,
   FavoriteButton,
@@ -9,6 +9,7 @@ import {
 } from "../ui/CurrencyCard/currencyCard";
 import { useCurrencyConverter } from "@/shared/contexts/currencyConverterContext";
 import { useCurrencies } from "@/shared/api/frankfurter";
+import Empty from "../ui/Empty/empty";
 
 type CurrencyFromList = (typeof currencies)[number];
 
@@ -27,7 +28,6 @@ type CurrencyRowData = {
 };
 
 const MultiConvertTable = () => {
-  const [activeCodes, setActiveCodes] = useState<CurrencyCode[]>([]);
   const { amount, sourceCurrency, favorites, toggleFavorite } =
     useCurrencyConverter();
   const { data: currencyData = [] } = useCurrencies(sourceCurrency.code);
@@ -50,14 +50,16 @@ const MultiConvertTable = () => {
   }, [currencyData, amount]);
 
   function handleOnFavoriteClick(code: CurrencyCode) {
-    toggleFavorite(sourceCurrency.code, code);
-    setActiveCodes((prev) => {
-      if (prev.includes(code)) {
-        return prev.filter((activeCode) => activeCode !== code);
-      }
+    toggleFavorite(sourceCurrency.code as CurrencyCode, code);
+  }
 
-      return [...prev, code];
-    });
+  if (rows.length === 0) {
+    return (
+      <Empty
+        header="No comparison available"
+        body="Enter an amount in SEND above to see what your money is worth in other currencies."
+      />
+    );
   }
 
   return (
@@ -91,10 +93,12 @@ const MultiConvertTable = () => {
               />
 
               <FavoriteButton
-                active={favorites.find(
-                  (fav) =>
-                    fav.from === sourceCurrency.code && fav.to === row.code,
-                )}
+                active={
+                  favorites.find(
+                    (fav) =>
+                      fav.from === sourceCurrency.code && fav.to === row.code,
+                  ) as unknown as boolean
+                }
                 onClick={() => handleOnFavoriteClick(row.code)}
               />
             </div>

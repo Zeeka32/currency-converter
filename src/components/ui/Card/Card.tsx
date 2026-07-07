@@ -1,14 +1,17 @@
+import SimpleLoader from "../InputField/SimpleLoader/simpleLoader";
 import classes from "./card.module.css";
 import { TriangleIcon } from "@phosphor-icons/react";
 
 const Card = ({
   title,
   number,
+  isLoading,
   change,
   className,
   ...props
 }: React.ComponentProps<"div"> & {
   title: string;
+  isLoading?: boolean;
   number: number;
   change: "normal" | "change" | "%";
 }) => {
@@ -17,30 +20,34 @@ const Card = ({
 
   return (
     <div className={`${classes.card} ${className}`} {...props}>
-      <div className={classes.stack}>
-        <h3>{title}</h3>
-        <div className={classes.container}>
-          {isChange ? (
-            <>
-              {change === "%" &&
-                (isPositive ? (
-                  <TriangleIcon color={"var(--green-500)"} weight="fill" />
-                ) : (
-                  <TriangleIcon
-                    color={"var(--red-500)"}
-                    weight="fill"
-                    className="rotate-180"
-                  />
-                ))}
-              <p className={`${isPositive ? classes.green : classes.red}`}>
-                {number}
-              </p>
-            </>
-          ) : (
-            <p>{number}</p>
-          )}
+      {isLoading ? (
+        <SimpleLoader />
+      ) : (
+        <div className={classes.stack}>
+          <h3>{title}</h3>
+          <div className={classes.container}>
+            {isChange ? (
+              <>
+                {change === "%" &&
+                  (isPositive ? (
+                    <TriangleIcon color={"var(--green-500)"} weight="fill" />
+                  ) : (
+                    <TriangleIcon
+                      color={"var(--red-500)"}
+                      weight="fill"
+                      className="rotate-180"
+                    />
+                  ))}
+                <p className={`${isPositive ? classes.green : classes.red}`}>
+                  {number}
+                </p>
+              </>
+            ) : (
+              <p>{number}</p>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

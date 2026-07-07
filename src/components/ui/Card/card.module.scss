@@ -1,9 +1,10 @@
 .card {
-  padding: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
   background-color: var(--Neutral-600);
   border: 1px solid var(--Neutral-600);
-  border-radius: var(--spacing-lg);
+  border-radius: 16px;
   color: var(--Neutral-50);
+  height: 80px;
   width: 100%;
 
   .stack {
