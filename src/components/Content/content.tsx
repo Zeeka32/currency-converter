@@ -100,7 +100,6 @@ function Content() {
             onClick={() => {
               const tempCurrency = sourceCurrency;
               setAmount(Math.round(conversionResult) || 0);
-              console.log(conversionResult);
               setSourceCurrency(targetCurrency);
               setTargetCurrency(tempCurrency);
               handleConversion();
