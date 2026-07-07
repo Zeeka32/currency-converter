@@ -131,10 +131,10 @@ function CurrencyConversion({
   return (
     <div className={classes["currency-conversion-container"]}>
       <p className={classes.content}>
-        {formatNumberInput(JSON.stringify(sourceAmount))}
+        {formatNumberInput(JSON.stringify(sourceAmount.toFixed(3)))}
       </p>
       <p className={classes.result}>
-        {formatNumberInput(JSON.stringify(targetAmount))}
+        {formatNumberInput(JSON.stringify(targetAmount.toFixed(3)))}
       </p>
     </div>
   );

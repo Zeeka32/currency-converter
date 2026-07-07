@@ -12,30 +12,9 @@ import { useBasesToQuotes } from "@/shared/api/frankfurter";
 
 const formatDate = (date: Date) => date.toISOString().split("T")[0];
 
-type CurrencyFromList = (typeof currencies)[number];
+type FavoriteTableProps = ComponentProps<"div">;
 
-type FavoriteTableProps = ComponentProps<"div"> & {
-  sourceCode: CurrencyCode;
-  data: {
-    code: CurrencyCode;
-    convertedAmount: number;
-    sourceUnit: number;
-  }[];
-};
-
-type CurrencyRowData = {
-  code: CurrencyCode;
-  convertedAmount: number;
-  sourceUnit: number;
-  currency: CurrencyFromList;
-};
-
-const FavoriteTable = ({
-  sourceCode,
-  data,
-  className = "",
-  ...props
-}: FavoriteTableProps) => {
+const FavoriteTable = ({ className = "", ...props }: FavoriteTableProps) => {
   const { favorites, toggleFavorite } = useCurrencyConverter();
   const today = new Date();
   const yesterday = new Date(today);
@@ -45,18 +24,6 @@ const FavoriteTable = ({
   const latest = useBasesToQuotes(favorites, formatDate(yesterday));
   const beforeLatest = useBasesToQuotes(favorites, formatDate(dayBefore));
   console.log(latest);
-  const rows: CurrencyRowData[] = data.flatMap((item): CurrencyRowData[] => {
-    const currency = currencies.find((c) => c.code === item.code);
-
-    if (!currency) return [];
-
-    return [
-      {
-        ...item,
-        currency,
-      },
-    ];
-  });
 
   function handleOnFavoriteClick(from: CurrencyCode, to: CurrencyCode) {
     toggleFavorite(from, to);
@@ -70,7 +37,7 @@ const FavoriteTable = ({
         </div>
 
         <div className={classes.right}>
-          <p>{`${rows.length} FAVORITES`}</p>
+          <p>{`${favorites.length} FAVORITES`}</p>
         </div>
       </div>
 

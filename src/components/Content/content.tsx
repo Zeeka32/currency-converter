@@ -21,6 +21,7 @@ function Content() {
     setSourceCurrency,
     targetCurrency,
     setTargetCurrency,
+    addLog,
   } = useCurrencyConverter();
 
   const { data: currencyData } = useCurrencies(sourceCurrency.code);
@@ -55,6 +56,17 @@ function Content() {
     }
   };
 
+  const handleLogConversion = () => {
+    if (targetCurrencyRate == undefined) return;
+
+    addLog({
+      amount: amount,
+      convertedAmount: amount * targetCurrencyRate,
+      from: sourceCurrency.code as any,
+      to: targetCurrency.code as any,
+      rate: targetCurrencyRate,
+    });
+  };
   return (
     <div className={classes["content-main"]}>
       <h2 className={classes["content-header"]}>CHECK THE RATE</h2>
@@ -101,7 +113,7 @@ function Content() {
           >{`1 ${sourceCurrency.code} = ${targetCurrencyRate?.toFixed(4)} ${targetCurrency.code}`}</div>
           <div className={classes["bottom-right"]}>
             <Button className={classes.button}>FAVORITE</Button>
-            <Button className={classes.button}>
+            <Button className={classes.button} onClick={handleLogConversion}>
               LOG {matches375 && "CONVERSION"}
             </Button>
           </div>
