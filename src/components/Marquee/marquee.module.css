@@ -3,7 +3,7 @@
   gap: var(--spacing-sm);
   overflow: hidden;
   align-items: center;
-  width: 100%;
+  width: 100vw;
   background-color: var(--Neutral-700);
   position: relative;
 }

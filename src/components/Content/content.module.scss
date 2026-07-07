@@ -3,6 +3,7 @@
   color: var(--Neutral-50);
   display: flex;
   flex-direction: column;
+  max-width: 1440px;
   gap: var(--spacing-md);
 
   @media screen and (max-width: 1024px) {
