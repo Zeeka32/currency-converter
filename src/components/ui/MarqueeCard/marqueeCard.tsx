@@ -23,7 +23,7 @@ function ChangeNumber({ number }: { number: number }) {
 
       <p className={number >= 0 ? classes.green : classes.red}>
         {(number >= 0 ? "+" : "-") +
-          formatNumberInput(Math.abs(number).toString())}
+          formatNumberInput(Math.abs(Number(number.toFixed(3))).toString())}
       </p>
     </div>
   );
@@ -43,7 +43,7 @@ export function MarqueeCard({
   return (
     <div className={classes.card}>
       <p className={classes.ratio}>{`${from}\\${to}`}</p>
-      <p>{rate}</p>
+      <p>{rate.toFixed(3)}</p>
       <ChangeNumber number={change}></ChangeNumber>
     </div>
   );

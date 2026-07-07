@@ -23,7 +23,6 @@ const FavoriteTable = ({ className = "", ...props }: FavoriteTableProps) => {
   dayBefore.setDate(today.getDate() - 2);
   const latest = useBasesToQuotes(favorites, formatDate(yesterday));
   const beforeLatest = useBasesToQuotes(favorites, formatDate(dayBefore));
-  console.log(latest);
 
   function handleOnFavoriteClick(from: CurrencyCode, to: CurrencyCode) {
     toggleFavorite(from, to);
