@@ -6,6 +6,12 @@
   gap: 16px;
   border-radius: 20px;
   border: 1px var(--Neutral-400) solid;
+
+  @media screen and (max-width: 768px) {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
   .label {
     color: var(--Neutral-100);
     font-size: 14px;

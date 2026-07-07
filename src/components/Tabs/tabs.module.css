@@ -7,4 +7,18 @@
   display: flex;
   gap: var(--spacing-lg);
   border-bottom: 1px solid var(--Neutral-500);
+}
+.tabs .active-tab {
+  animation: tabFadeUp 350ms ease-out forwards;
+}
+
+@keyframes tabFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }/*# sourceMappingURL=tabs.module.css.map */

@@ -24,6 +24,12 @@
   .history .header .cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+  }
+}
+@media screen and (max-width: 375px) {
+  .history .header .cards {
+    gap: var(--spacing-lg);
   }
 }
 .history .header .graph-buttons-container {

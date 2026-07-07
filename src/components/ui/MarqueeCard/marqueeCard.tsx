@@ -7,7 +7,13 @@ import type { CurrencyCode } from "@/shared/constants/flagIcons";
 /* Right-side action variations                                               */
 /* -------------------------------------------------------------------------- */
 
-function ChangeNumber({ number }: { number: number }) {
+function ChangeNumber({
+  number,
+  isPercent = false,
+}: {
+  number: number;
+  isPercent?: boolean;
+}) {
   return (
     <div className={classes["change-number"]}>
       {number >= 0 ? (
@@ -24,6 +30,7 @@ function ChangeNumber({ number }: { number: number }) {
       <p className={number >= 0 ? classes.green : classes.red}>
         {(number >= 0 ? "+" : "-") +
           formatNumberInput(Math.abs(Number(number.toFixed(3))).toString())}
+        {isPercent ? "%" : ""}
       </p>
     </div>
   );
@@ -44,7 +51,7 @@ export function MarqueeCard({
     <div className={classes.card}>
       <p className={classes.ratio}>{`${from}\\${to}`}</p>
       <p>{rate.toFixed(3)}</p>
-      <ChangeNumber number={change}></ChangeNumber>
+      <ChangeNumber number={change} isPercent={true}></ChangeNumber>
     </div>
   );
 }
