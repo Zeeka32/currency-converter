@@ -12,6 +12,44 @@ import {
   type CurrencyPairValue,
 } from "@/lib/currencyRates";
 
+export type MarqueeItem = {
+  from: CurrencyCode;
+  to: CurrencyCode;
+  rate: number;
+  change: number;
+};
+
+type MarqueeViewProps = ComponentProps<"div"> & {
+  items: MarqueeItem[];
+};
+
+export function MarqueeView({
+  className = "",
+  items,
+  ...props
+}: MarqueeViewProps) {
+  return (
+    <div className={`${classes.marquee} ${className}`} {...props}>
+      <div className={classes.header}>
+        <CircleIcon size={10} weight="fill" />
+        <h4>Live Markets</h4>
+      </div>
+
+      <div className={classes.track}>
+        {items.map((item) => (
+          <MarqueeCard
+            key={`${item.from}-${item.to}`}
+            from={item.from}
+            to={item.to}
+            rate={item.rate}
+            change={item.change}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const popularPairs: CurrencyPairValue[] = [
   { from: "EUR", to: "USD" },
   { from: "EUR", to: "GBP" },
@@ -49,7 +87,7 @@ type MarqueeProps = ComponentProps<"div">;
 
 const REFERENCE_BASE: CurrencyCode = "EUR";
 
-export function Marquee({ className = "", ...props }: MarqueeProps) {
+export function Marquee(props: MarqueeProps) {
   const { latestDate, previousDate } = getPreviousRateDates();
 
   const latest = useReferenceRatesForPairs(
@@ -72,30 +110,20 @@ export function Marquee({ className = "", ...props }: MarqueeProps) {
     return buildReferenceRateMap(previous.data ?? [], REFERENCE_BASE);
   }, [previous.data]);
 
-  return (
-    <div className={`${classes.marquee} ${className}`} {...props}>
-      <div className={classes.header}>
-        <CircleIcon size={10} weight="fill" />
-        <h4>Live Markets</h4>
-      </div>
+  const items = useMemo<MarqueeItem[]>(() => {
+    return popularPairs.map((pair) => {
+      const latestRate = getCrossRate(latestReferenceRateMap, pair);
+      const previousRate = getCrossRate(previousReferenceRateMap, pair);
+      const change = getPercentChange(latestRate, previousRate);
 
-      <div className={classes.track}>
-        {popularPairs.map((pair) => {
-          const latestRate = getCrossRate(latestReferenceRateMap, pair);
-          const previousRate = getCrossRate(previousReferenceRateMap, pair);
-          const change = getPercentChange(latestRate, previousRate);
+      return {
+        from: pair.from,
+        to: pair.to,
+        rate: latestRate ?? 0,
+        change: change ?? 0,
+      };
+    });
+  }, [latestReferenceRateMap, previousReferenceRateMap]);
 
-          return (
-            <MarqueeCard
-              key={`${pair.from}-${pair.to}`}
-              from={pair.from}
-              to={pair.to}
-              rate={latestRate ?? 0}
-              change={change ?? 0}
-            />
-          );
-        })}
-      </div>
-    </div>
-  );
+  return <MarqueeView items={items} {...props} />;
 }

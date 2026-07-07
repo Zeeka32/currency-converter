@@ -100,7 +100,7 @@ function Content() {
             className={classes["exchange-button"]}
             onClick={() => {
               const tempCurrency = sourceCurrency;
-              setAmount(Math.round(conversionResult) || 0);
+              setAmount(Math.round(conversionResult as number) || 0);
               setSourceCurrency(targetCurrency);
               setTargetCurrency(tempCurrency);
               handleConversion();
@@ -111,7 +111,7 @@ function Content() {
           <InputField
             currency={targetCurrency}
             setCurrency={setTargetCurrency}
-            value={conversionResult}
+            value={conversionResult ? conversionResult.toString() : ""}
             placeholder="0"
             isLoading={isLoadingState}
             className="w-full"

@@ -1,15 +1,22 @@
+import { lazy, Suspense } from "react";
 import {
   getGraphStats,
   useCurrencyGraphData,
   type GraphRange,
 } from "@/shared/api/frankfurter";
-import { CurrencyGraph } from "../CurrencyGraph/currencyGraph";
 import Card from "../ui/Card/Card";
 import { GraphTaps } from "../ui/GraphTaps/graphTaps";
 import classes from "./history.module.css";
 import type { CurrencyCode } from "@/shared/constants/flagIcons";
 import { useCurrencyConverter } from "@/shared/contexts/currencyConverterContext";
 import Empty from "../ui/Empty/empty";
+import SimpleLoader from "../ui/InputField/SimpleLoader/simpleLoader";
+
+const CurrencyGraph = lazy(() =>
+  import("../CurrencyGraph/currencyGraph").then((module) => ({
+    default: module.CurrencyGraph,
+  })),
+);
 
 const cards = ({
   open,
@@ -55,26 +62,27 @@ function History() {
     isLoading,
     isFetching,
     isError,
+    fetchStatus,
   } = useCurrencyGraphData({
     base: sourceCurrency.code as CurrencyCode,
     quote: targetCurrency.code as CurrencyCode,
     range: selectedGraphRange as GraphRange,
   });
 
-  const graphStats = getGraphStats(data);
-
   const isLoadingState = isLoading || isFetching;
   const hasNoData = !isLoadingState && data.length === 0;
-  console.log(data);
+  const isPaused = fetchStatus === "paused";
 
-  if (isError || hasNoData) {
+  if (isError || isPaused || hasNoData) {
     return (
       <Empty
         header="No chart data available"
-        body="We couldn't load rate history for USD/EUR right now. This usually clears up in a minute."
+        body={`We couldn't load rate history for ${sourceCurrency.code}/${targetCurrency.code} right now. This usually clears up in a minute.`}
       />
     );
   }
+
+  const graphStats = getGraphStats(data);
 
   return (
     <div className={classes["history"]}>
@@ -82,19 +90,29 @@ function History() {
         <div className={classes["cards"]}>
           {cards(graphStats).map((card) => (
             <Card
+              key={card.title}
               change={card.change}
               number={Number(card.value)}
               title={card.title}
-              key={card.title}
               isLoading={isLoadingState}
-            ></Card>
+            />
           ))}
         </div>
+
         <div className={classes["graph-buttons-container"]}>
           <GraphTaps />
         </div>
       </div>
-      <CurrencyGraph />
+
+      <Suspense fallback={<SimpleLoader />}>
+        <CurrencyGraph
+          data={data}
+          isLoading={isLoadingState}
+          baseCode={sourceCurrency.code as CurrencyCode}
+          quoteCode={targetCurrency.code as CurrencyCode}
+          range={selectedGraphRange as GraphRange}
+        />
+      </Suspense>
     </div>
   );
 }
