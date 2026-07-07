@@ -4,6 +4,7 @@ import { CurrencyPicker } from "../CurrencyPicker/currencyPicker";
 import { formatNumberInput, unformatNumberInput } from "@/lib/formatNumbers";
 import { useEffect, useState } from "react";
 import type { Currency } from "@/shared/constants/flagIcons";
+import SimpleLoader from "./SimpleLoader/simpleLoader";
 
 function Label({ className = "", ...props }: React.ComponentProps<"label">) {
   return (
@@ -37,6 +38,7 @@ type InputFieldProps = Omit<
   label: string;
   value?: number | string;
   receive?: boolean;
+  isLoading?: boolean;
   currency: Currency;
   setCurrency: (currency: Currency) => void;
   onValueChange?: (value: number) => void;
@@ -46,6 +48,7 @@ export function InputField({
   className = "",
   id,
   label,
+  isLoading = false,
   value = "",
   onValueChange,
   currency,
@@ -102,22 +105,27 @@ export function InputField({
     ? formatNumberInput(Number(unformatNumberInput(inputValue)).toFixed(2))
     : inputValue;
 
+  const isLoadingState = isLoading && receive;
+
   return (
     <Field className={className}>
       <FieldLabel htmlFor={id}>{label}</FieldLabel>
 
       <div className={classes["input-area"]}>
-        <InputPrimitive
-          id={id}
-          autoComplete="off"
-          type="text"
-          inputMode="decimal"
-          value={finalInput}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          className={`${classes.input} ${receive ? classes.receive : ""}`}
-          {...props}
-        />
+        <div className="flex items-center gap-2">
+          {isLoadingState && <SimpleLoader />}
+          <InputPrimitive
+            id={id}
+            autoComplete="off"
+            type="text"
+            inputMode="decimal"
+            value={finalInput}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={`${classes.input} ${receive ? classes.receive : ""}`}
+            {...props}
+          />
+        </div>
 
         <CurrencyPicker
           selectedCurrency={currency}

@@ -28,7 +28,11 @@ function Content() {
     addLog,
   } = useCurrencyConverter();
 
-  const { data: currencyData } = useCurrencies(sourceCurrency.code);
+  const {
+    data: currencyData,
+    isLoading,
+    isFetching,
+  } = useCurrencies(sourceCurrency.code);
 
   useEffect(() => {
     if (!currencyData) {
@@ -72,6 +76,8 @@ function Content() {
     });
   };
 
+  const isLoadingState = isLoading || isFetching;
+
   return (
     <div className={classes["content-main"]}>
       <h2 className={classes["content-header"]}>CHECK THE RATE</h2>
@@ -107,6 +113,7 @@ function Content() {
             setCurrency={setTargetCurrency}
             value={conversionResult}
             placeholder="0"
+            isLoading={isLoadingState}
             className="w-full"
             receive
             label="RECEIVE"
