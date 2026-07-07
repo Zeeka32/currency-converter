@@ -86,7 +86,7 @@ type NumberStackProps = {
 function NumberStack({ headerNumber, contentNumber }: NumberStackProps) {
   return (
     <div className={classes["number-stack"]}>
-      <h4>{formatNumberInput(headerNumber.toString())}</h4>
+      <h4>{formatNumberInput(headerNumber.toFixed(3).toString())}</h4>
       <span>
         {contentNumber >= 0 ? (
           <TriangleIcon size={10} weight="fill" color="var(--green-500)" />
@@ -101,7 +101,7 @@ function NumberStack({ headerNumber, contentNumber }: NumberStackProps) {
 
         <p className={contentNumber >= 0 ? classes.green : classes.red}>
           {(contentNumber >= 0 ? "+" : "-") +
-            formatNumberInput(Math.abs(contentNumber).toString())}
+            formatNumberInput(Math.abs(contentNumber).toFixed(3).toString())}
         </p>
       </span>
     </div>
@@ -111,9 +111,9 @@ function NumberStack({ headerNumber, contentNumber }: NumberStackProps) {
 function StaticNumberStack({ headerNumber, contentNumber }: NumberStackProps) {
   return (
     <div className={classes["number-stack"]}>
-      <h4>{formatNumberInput(headerNumber.toString())}</h4>
+      <h4>{formatNumberInput(headerNumber.toFixed(3).toString())}</h4>
       <span>
-        <p>@ {formatNumberInput(contentNumber.toString())}</p>
+        <p>@ {formatNumberInput(contentNumber.toFixed(3).toString())}</p>
       </span>
     </div>
   );

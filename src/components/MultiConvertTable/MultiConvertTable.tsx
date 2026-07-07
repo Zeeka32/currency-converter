@@ -28,8 +28,8 @@ type CurrencyRowData = {
 
 const MultiConvertTable = () => {
   const [activeCodes, setActiveCodes] = useState<CurrencyCode[]>([]);
-
-  const { amount, sourceCurrency } = useCurrencyConverter();
+  const { amount, sourceCurrency, favorites, toggleFavorite } =
+    useCurrencyConverter();
   const { data: currencyData = [] } = useCurrencies(sourceCurrency.code);
 
   const rows: CurrencyRowData[] = useMemo(() => {
@@ -50,6 +50,7 @@ const MultiConvertTable = () => {
   }, [currencyData, amount]);
 
   function handleOnFavoriteClick(code: CurrencyCode) {
+    toggleFavorite(sourceCurrency.code, code);
     setActiveCodes((prev) => {
       if (prev.includes(code)) {
         return prev.filter((activeCode) => activeCode !== code);
@@ -90,7 +91,10 @@ const MultiConvertTable = () => {
               />
 
               <FavoriteButton
-                active={activeCodes.includes(row.code)}
+                active={favorites.find(
+                  (fav) =>
+                    fav.from === sourceCurrency.code && fav.to === row.code,
+                )}
                 onClick={() => handleOnFavoriteClick(row.code)}
               />
             </div>

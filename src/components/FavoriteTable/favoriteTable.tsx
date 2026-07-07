@@ -7,6 +7,10 @@ import {
   GenericCurrencyCard,
   NumberStack,
 } from "../ui/CurrencyCard/currencyCard";
+import { useCurrencyConverter } from "@/shared/contexts/currencyConverterContext";
+import { useBasesToQuotes } from "@/shared/api/frankfurter";
+
+const formatDate = (date: Date) => date.toISOString().split("T")[0];
 
 type CurrencyFromList = (typeof currencies)[number];
 
@@ -32,10 +36,15 @@ const FavoriteTable = ({
   className = "",
   ...props
 }: FavoriteTableProps) => {
-  const [activeCodes, setActiveCodes] = useState<CurrencyCode[]>(
-    data.map((item) => item.code),
-  );
-
+  const { favorites, toggleFavorite } = useCurrencyConverter();
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+  const dayBefore = new Date(today);
+  dayBefore.setDate(today.getDate() - 2);
+  const latest = useBasesToQuotes(favorites, formatDate(yesterday));
+  const beforeLatest = useBasesToQuotes(favorites, formatDate(dayBefore));
+  console.log(latest);
   const rows: CurrencyRowData[] = data.flatMap((item): CurrencyRowData[] => {
     const currency = currencies.find((c) => c.code === item.code);
 
@@ -49,14 +58,8 @@ const FavoriteTable = ({
     ];
   });
 
-  function handleOnFavoriteClick(code: CurrencyCode) {
-    setActiveCodes((prev) => {
-      if (prev.includes(code)) {
-        return prev.filter((activeCode) => activeCode !== code);
-      }
-
-      return [...prev, code];
-    });
+  function handleOnFavoriteClick(from: CurrencyCode, to: CurrencyCode) {
+    toggleFavorite(from, to);
   }
 
   return (
@@ -71,25 +74,50 @@ const FavoriteTable = ({
         </div>
       </div>
 
-      {rows.map((row) => (
-        <GenericCurrencyCard
-          key={row.code}
-          left={<CurrencyPair from={sourceCode} to={row.code} />}
-          right={
-            <div className={classes.container}>
-              <NumberStack
-                headerNumber={row.convertedAmount}
-                contentNumber={row.sourceUnit}
-              />
+      {favorites.map((fav) => {
+        const latestRates = latest.flatMap((query) => query.data ?? []);
+        const beforeLatestRates = beforeLatest.flatMap(
+          (query) => query.data ?? [],
+        );
 
-              <FavoriteButton
-                active={activeCodes.includes(row.code)}
-                onClick={() => handleOnFavoriteClick(row.code)}
-              />
-            </div>
-          }
-        />
-      ))}
+        const latestRate = latestRates.find(
+          (rate) => rate.base === fav.from && rate.quote === fav.to,
+        );
+
+        const beforeLatestRate = beforeLatestRates.find(
+          (rate) => rate.base === fav.from && rate.quote === fav.to,
+        );
+
+        let rate = "N/A";
+        let change = "N/A";
+
+        if (latestRate) {
+          rate = latestRate.rate;
+        }
+
+        if (latestRate && beforeLatestRate) {
+          change = (latestRate.rate - beforeLatestRate.rate).toString();
+        }
+        return (
+          <GenericCurrencyCard
+            key={fav.from}
+            left={<CurrencyPair from={fav.from} to={fav.to} />}
+            right={
+              <div className={classes.container}>
+                <NumberStack
+                  headerNumber={Number(rate)}
+                  contentNumber={Number(change)}
+                />
+
+                <FavoriteButton
+                  active={true}
+                  onClick={() => handleOnFavoriteClick(fav.from, fav.to)}
+                />
+              </div>
+            }
+          />
+        );
+      })}
     </div>
   );
 };
