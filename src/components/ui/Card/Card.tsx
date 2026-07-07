@@ -7,12 +7,14 @@ const Card = ({
   number,
   isLoading,
   change,
+  isPercent = false,
   className,
   ...props
 }: React.ComponentProps<"div"> & {
   title: string;
   isLoading?: boolean;
   number: number;
+  isPercent?: boolean;
   change: "normal" | "change" | "%";
 }) => {
   const isChange = change === "change" || change === "%";
@@ -39,11 +41,11 @@ const Card = ({
                     />
                   ))}
                 <p className={`${isPositive ? classes.green : classes.red}`}>
-                  {number}
+                  {JSON.stringify(number) + (isPercent ? "%" : "")}
                 </p>
               </>
             ) : (
-              <p>{number}</p>
+              <p>{JSON.stringify(number) + (isPercent ? "%" : "")}</p>
             )}
           </div>
         </div>

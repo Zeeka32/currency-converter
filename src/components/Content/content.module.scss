@@ -30,6 +30,8 @@
     @media screen and (max-width: 700px) {
       display: flex;
       flex-direction: column;
+      gap: var(--spacing-xl);
+      border-radius: 12px;
     }
 
     .rate-section-top {
@@ -40,6 +42,7 @@
 
       @media screen and (max-width: 700px) {
         flex-direction: column;
+        padding: var(--spacing-lg) 16px;
       }
 
       .exchange-button {
@@ -85,6 +88,7 @@
       @media screen and (max-width: 700px) {
         flex-direction: column;
         gap: 16px;
+        padding: var(--spacing-lg) 16px;
       }
 
       .bottom-left {
