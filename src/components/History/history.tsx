@@ -9,6 +9,7 @@ import { GraphTaps } from "../ui/GraphTaps/graphTaps";
 import classes from "./history.module.css";
 import type { CurrencyCode } from "@/shared/constants/flagIcons";
 import { useCurrencyConverter } from "@/shared/contexts/currencyConverterContext";
+import Empty from "../ui/Empty/empty";
 
 const cards = ({
   open,
@@ -53,6 +54,7 @@ function History() {
     data = [],
     isLoading,
     isFetching,
+    isError,
   } = useCurrencyGraphData({
     base: sourceCurrency.code as CurrencyCode,
     quote: targetCurrency.code as CurrencyCode,
@@ -62,6 +64,17 @@ function History() {
   const graphStats = getGraphStats(data);
 
   const isLoadingState = isLoading || isFetching;
+  const hasNoData = !isLoadingState && data.length === 0;
+  console.log(data);
+
+  if (isError || hasNoData) {
+    return (
+      <Empty
+        header="No chart data available"
+        body="We couldn't load rate history for USD/EUR right now. This usually clears up in a minute."
+      />
+    );
+  }
 
   return (
     <div className={classes["history"]}>

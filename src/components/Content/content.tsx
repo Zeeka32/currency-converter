@@ -32,6 +32,7 @@ function Content() {
     data: currencyData,
     isLoading,
     isFetching,
+    isError,
   } = useCurrencies(sourceCurrency.code);
 
   useEffect(() => {
@@ -122,7 +123,13 @@ function Content() {
         <div className={classes["rate-section-bottom"]}>
           <div
             className={classes["bottom-left"]}
-          >{`1 ${sourceCurrency.code} = ${targetCurrencyRate?.toFixed(4)} ${targetCurrency.code}`}</div>
+          >{`1 ${sourceCurrency.code} = ${
+            isLoadingState
+              ? "..."
+              : isError
+                ? "N/A"
+                : targetCurrencyRate?.toFixed(4)
+          } ${targetCurrency.code}`}</div>
           <div className={classes["bottom-right"]}>
             <Button
               className={classes.button}
