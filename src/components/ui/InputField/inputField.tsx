@@ -98,6 +98,10 @@ export function InputField({
     setInputValue(formatNumberInput(unformattedValue));
   }
 
+  const finalInput = receive
+    ? formatNumberInput(Number(unformatNumberInput(inputValue)).toFixed(2))
+    : inputValue;
+
   return (
     <Field className={className}>
       <FieldLabel htmlFor={id}>{label}</FieldLabel>
@@ -108,7 +112,7 @@ export function InputField({
           autoComplete="off"
           type="text"
           inputMode="decimal"
-          value={inputValue}
+          value={finalInput}
           onChange={handleChange}
           onBlur={handleBlur}
           className={`${classes.input} ${receive ? classes.receive : ""}`}

@@ -8,7 +8,9 @@ import Tabs from "../Tabs/tabs";
 import { useMediaQuery } from "usehooks-ts";
 import { useCurrencyConverter } from "@/shared/contexts/currencyConverterContext";
 import { useEffect, useState } from "react";
+import { StarIcon } from "@phosphor-icons/react";
 import { useCurrencies } from "@/shared/api/frankfurter";
+import type { CurrencyCode } from "@/shared/constants/flagIcons";
 
 function Content() {
   const matches700 = useMediaQuery("(min-width: 700px)");
@@ -18,9 +20,11 @@ function Content() {
     setAmount,
     amount,
     sourceCurrency,
+    isFavorite,
     setSourceCurrency,
     targetCurrency,
     setTargetCurrency,
+    toggleFavorite,
     addLog,
   } = useCurrencyConverter();
 
@@ -67,6 +71,7 @@ function Content() {
       rate: targetCurrencyRate,
     });
   };
+
   return (
     <div className={classes["content-main"]}>
       <h2 className={classes["content-header"]}>CHECK THE RATE</h2>
@@ -89,6 +94,7 @@ function Content() {
             onClick={() => {
               const tempCurrency = sourceCurrency;
               setAmount(Math.round(conversionResult) || 0);
+              console.log(conversionResult);
               setSourceCurrency(targetCurrency);
               setTargetCurrency(tempCurrency);
               handleConversion();
@@ -112,7 +118,27 @@ function Content() {
             className={classes["bottom-left"]}
           >{`1 ${sourceCurrency.code} = ${targetCurrencyRate?.toFixed(4)} ${targetCurrency.code}`}</div>
           <div className={classes["bottom-right"]}>
-            <Button className={classes.button}>FAVORITE</Button>
+            <Button
+              className={classes.button}
+              icon={<StarIcon weight="fill" />}
+              favorited={isFavorite(
+                sourceCurrency.code as CurrencyCode,
+                targetCurrency.code as CurrencyCode,
+              )}
+              onClick={() =>
+                toggleFavorite(
+                  sourceCurrency.code as CurrencyCode,
+                  targetCurrency.code as CurrencyCode,
+                )
+              }
+            >
+              {isFavorite(
+                sourceCurrency.code as CurrencyCode,
+                targetCurrency.code as CurrencyCode,
+              )
+                ? "FAVORITED"
+                : "FAVORITE"}
+            </Button>
             <Button className={classes.button} onClick={handleLogConversion}>
               LOG {matches375 && "CONVERSION"}
             </Button>

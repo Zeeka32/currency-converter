@@ -4,7 +4,7 @@ import {
   type CurrencyCode,
 } from "@/shared/constants/flagIcons";
 import classes from "./currency.module.css";
-import ArrowRight from "../../../../public/assets/images/icon-arrow-right.svg";
+import ArrowRight from "/assets/images/icon-arrow-right.svg";
 import { Button } from "@base-ui/react/button";
 import { type ReactNode } from "react";
 import { TriangleIcon } from "@phosphor-icons/react";
@@ -131,10 +131,10 @@ function CurrencyConversion({
   return (
     <div className={classes["currency-conversion-container"]}>
       <p className={classes.content}>
-        {formatNumberInput(JSON.stringify(sourceAmount.toFixed(3)))}
+        {formatNumberInput(JSON.stringify(sourceAmount.toFixed(2)))}
       </p>
       <p className={classes.result}>
-        {formatNumberInput(JSON.stringify(targetAmount.toFixed(3)))}
+        {formatNumberInput(JSON.stringify(targetAmount.toFixed(2)))}
       </p>
     </div>
   );
@@ -145,7 +145,7 @@ function LogTimeConversion({
   from,
   to,
 }: {
-  time: number;
+  time: string;
   from: CurrencyCode;
   to: CurrencyCode;
 }) {

@@ -6,7 +6,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/Popover/popover";
 
-import ChevronDown from "../../../../public/assets/images/icon-chevron-down.svg";
+import ChevronDown from "/assets/images/icon-chevron-down.svg";
 
 import classes from "./dropdown.module.css";
 
@@ -73,8 +73,10 @@ export function Dropdown({
               >
                 <span>{item.label}</span>
 
-                {item.count !== undefined && (
-                  <span className={classes.counter}>{item.count}</span>
+                {item.count !== undefined && item.count !== -1 && (
+                  <span className={classes.counter}>
+                    {item.count >= 99 ? "99+" : item.count}
+                  </span>
                 )}
               </button>
             ))}

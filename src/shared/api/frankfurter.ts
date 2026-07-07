@@ -1,5 +1,10 @@
+import { useMemo } from "react";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import type { CurrencyCode } from "../constants/flagIcons";
+import {
+  getUniqueCurrenciesFromPairs,
+  type CurrencyPairValue,
+} from "../../lib/currencyRates";
 
 const url = "https://api.frankfurter.dev/v2";
 
@@ -27,7 +32,7 @@ export const useCurrencies = (query: string = "") => {
 const fetchCurrencyBaseToQuotes = async (
   base: CurrencyCode,
   quotes: CurrencyCode[],
-  date?: string, // YYYY-MM-DD
+  date?: string,
 ) => {
   const params = new URLSearchParams({
     base,
@@ -47,28 +52,63 @@ const fetchCurrencyBaseToQuotes = async (
   return response.json();
 };
 
+export const useBaseToQuotes = (
+  base: CurrencyCode,
+  quotes: CurrencyCode[],
+  date?: string,
+  enabled = true,
+) => {
+  const sortedQuotes = useMemo(() => [...quotes].sort(), [quotes]);
+
+  return useQuery({
+    queryKey: ["rates", base, sortedQuotes, date],
+    queryFn: () => fetchCurrencyBaseToQuotes(base, sortedQuotes, date),
+    staleTime: 1000 * 60 * 5,
+    enabled: enabled && sortedQuotes.length > 0,
+  });
+};
+
 export const useBasesToQuotes = (
-  favorites: { from: CurrencyCode; to: CurrencyCode }[],
+  pairs: CurrencyPairValue[],
   date?: string,
 ) => {
-  const grouped = favorites.reduce<Record<CurrencyCode, Set<CurrencyCode>>>(
-    (acc, { from, to }) => {
-      if (!acc[from]) {
-        acc[from] = new Set();
-      }
+  const grouped = useMemo(() => {
+    return pairs.reduce<Partial<Record<CurrencyCode, Set<CurrencyCode>>>>(
+      (acc, { from, to }) => {
+        if (!acc[from]) {
+          acc[from] = new Set();
+        }
 
-      acc[from].add(to);
+        acc[from].add(to);
 
-      return acc;
-    },
-    {} as Record<CurrencyCode, Set<CurrencyCode>>,
-  );
+        return acc;
+      },
+      {},
+    );
+  }, [pairs]);
 
   return useQueries({
-    queries: Object.entries(grouped).map(([from, tos]) => ({
-      queryKey: ["rates", from, [...tos].sort(), date],
-      queryFn: () =>
-        fetchCurrencyBaseToQuotes(from as CurrencyCode, [...tos], date),
-    })),
+    queries: Object.entries(grouped).map(([from, tos]) => {
+      const quotes = [...tos].sort();
+
+      return {
+        queryKey: ["rates", from, quotes, date],
+        queryFn: () =>
+          fetchCurrencyBaseToQuotes(from as CurrencyCode, quotes, date),
+        staleTime: 1000 * 60 * 5,
+      };
+    }),
   });
+};
+
+export const useReferenceRatesForPairs = (
+  pairs: CurrencyPairValue[],
+  date?: string,
+  referenceBase: CurrencyCode = "EUR",
+) => {
+  const quotes = useMemo(() => {
+    return getUniqueCurrenciesFromPairs(pairs, referenceBase);
+  }, [pairs, referenceBase]);
+
+  return useBaseToQuotes(referenceBase, quotes, date, pairs.length > 0);
 };

@@ -11,8 +11,8 @@ import {
   currencies,
   type Currency,
 } from "@/shared/constants/flagIcons";
-import CheveronDown from "../../../../public/assets/images/icon-chevron-down.svg";
-import SearchIcon from "../../../../public/assets/images/icon-search.svg";
+import CheveronDown from "/assets/images/icon-chevron-down.svg";
+import SearchIcon from "/assets/images/icon-search.svg";
 import { CheckIcon } from "@phosphor-icons/react";
 
 import classes from "./currencyPicker.module.css";

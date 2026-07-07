@@ -1,0 +1,21 @@
+.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+
+    padding: 40px 0;
+    gap:16px;
+
+}
+.header {
+    font-size: 20px;
+    color: var(--Neutral-200);
+    
+}
+
+.paragraph {
+    font-size: 14px;
+    color: var(--Neutral-200);
+}

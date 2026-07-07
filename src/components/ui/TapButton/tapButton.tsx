@@ -4,7 +4,7 @@ import classes from "./button.module.css";
 function TapButton({
   className = "",
   selected = false,
-  count = 0,
+  count = -1,
   children,
   ...props
 }: ButtonPrimitive.Props & {
@@ -18,7 +18,7 @@ function TapButton({
       {...props}
     >
       {children}
-      {count > 0 && (
+      {count >= 0 && (
         <span className={classes.counter}>
           {count >= 99 ? `${99}+` : count}
         </span>

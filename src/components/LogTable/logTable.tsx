@@ -1,26 +1,32 @@
-import { currencies, type CurrencyCode } from "@/shared/constants/flagIcons";
 import classes from "./logTable.module.css";
-import { useState, type ComponentProps } from "react";
+import { type ComponentProps } from "react";
 import {
   CurrencyConversion,
-  CurrencyFlag,
   DiscardFavoriteButton,
-  FavoriteButton,
   GenericCurrencyCard,
   LogTimeConversion,
-  StaticNumberStack,
 } from "../ui/CurrencyCard/currencyCard";
 import { Button } from "../ui/Button/button";
 import { useCurrencyConverter } from "@/shared/contexts/currencyConverterContext";
-
-type CurrencyFromList = (typeof currencies)[number];
+import Empty from "../ui/Empty/empty";
+import { formatTimeAgo } from "@/lib/formatTimeAgo";
 
 type LogTableProps = ComponentProps<"div">;
 
 const LogTable = ({ className = "", ...props }: LogTableProps) => {
   const { logs, deleteLog, clearLogs } = useCurrencyConverter();
+
   function handleOnDeleteClick(id: string) {
     deleteLog(id);
+  }
+
+  if (logs.length === 0) {
+    return (
+      <Empty
+        header="No conversions logged yet."
+        body="Every conversion is recorded here automatically when you tap LOG CONVERSION. Your log is private to this session and this browser."
+      />
+    );
   }
 
   return (
@@ -45,8 +51,8 @@ const LogTable = ({ className = "", ...props }: LogTableProps) => {
             <LogTimeConversion
               from={log.from}
               to={log.to}
-              time={log.createdAt}
-            ></LogTimeConversion>
+              time={formatTimeAgo(log.createdAt)}
+            />
           }
           right={
             <div className="flex items-center gap-2">

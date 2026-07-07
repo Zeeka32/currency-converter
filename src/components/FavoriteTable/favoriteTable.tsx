@@ -1,6 +1,6 @@
-import { currencies, type CurrencyCode } from "@/shared/constants/flagIcons";
+import { type CurrencyCode } from "@/shared/constants/flagIcons";
 import classes from "./favoriteTable.module.css";
-import { useState, type ComponentProps } from "react";
+import { type ComponentProps, useMemo } from "react";
 import {
   CurrencyPair,
   FavoriteButton,
@@ -9,23 +9,44 @@ import {
 } from "../ui/CurrencyCard/currencyCard";
 import { useCurrencyConverter } from "@/shared/contexts/currencyConverterContext";
 import { useBasesToQuotes } from "@/shared/api/frankfurter";
-
-const formatDate = (date: Date) => date.toISOString().split("T")[0];
+import {
+  buildPairRateMap,
+  flattenRates,
+  getAbsoluteChange,
+  getPairRate,
+  getPreviousRateDates,
+} from "@/lib/currencyRates";
+import Empty from "../ui/Empty/empty";
 
 type FavoriteTableProps = ComponentProps<"div">;
 
 const FavoriteTable = ({ className = "", ...props }: FavoriteTableProps) => {
   const { favorites, toggleFavorite } = useCurrencyConverter();
-  const today = new Date();
-  const yesterday = new Date(today);
-  yesterday.setDate(today.getDate() - 1);
-  const dayBefore = new Date(today);
-  dayBefore.setDate(today.getDate() - 2);
-  const latest = useBasesToQuotes(favorites, formatDate(yesterday));
-  const beforeLatest = useBasesToQuotes(favorites, formatDate(dayBefore));
+
+  const { latestDate, previousDate } = getPreviousRateDates();
+
+  const latest = useBasesToQuotes(favorites, latestDate);
+  const beforeLatest = useBasesToQuotes(favorites, previousDate);
+
+  const latestRateMap = useMemo(() => {
+    return buildPairRateMap(flattenRates(latest));
+  }, [latest]);
+
+  const previousRateMap = useMemo(() => {
+    return buildPairRateMap(flattenRates(beforeLatest));
+  }, [beforeLatest]);
 
   function handleOnFavoriteClick(from: CurrencyCode, to: CurrencyCode) {
     toggleFavorite(from, to);
+  }
+
+  if (favorites.length === 0) {
+    return (
+      <Empty
+        header="No pinned pairs yet."
+        body="pin a pair to track its rate here. Tap the star icon on any conversion or comparison row."
+      />
+    );
   }
 
   return (
@@ -41,38 +62,19 @@ const FavoriteTable = ({ className = "", ...props }: FavoriteTableProps) => {
       </div>
 
       {favorites.map((fav) => {
-        const latestRates = latest.flatMap((query) => query.data ?? []);
-        const beforeLatestRates = beforeLatest.flatMap(
-          (query) => query.data ?? [],
-        );
+        const latestRate = getPairRate(latestRateMap, fav);
+        const previousRate = getPairRate(previousRateMap, fav);
+        const change = getAbsoluteChange(latestRate, previousRate);
 
-        const latestRate = latestRates.find(
-          (rate) => rate.base === fav.from && rate.quote === fav.to,
-        );
-
-        const beforeLatestRate = beforeLatestRates.find(
-          (rate) => rate.base === fav.from && rate.quote === fav.to,
-        );
-
-        let rate = "N/A";
-        let change = "N/A";
-
-        if (latestRate) {
-          rate = latestRate.rate;
-        }
-
-        if (latestRate && beforeLatestRate) {
-          change = (latestRate.rate - beforeLatestRate.rate).toString();
-        }
         return (
           <GenericCurrencyCard
-            key={fav.from}
+            key={`${fav.from}-${fav.to}`}
             left={<CurrencyPair from={fav.from} to={fav.to} />}
             right={
               <div className={classes.container}>
                 <NumberStack
-                  headerNumber={Number(rate)}
-                  contentNumber={Number(change)}
+                  headerNumber={latestRate ?? 0}
+                  contentNumber={change ?? 0}
                 />
 
                 <FavoriteButton
