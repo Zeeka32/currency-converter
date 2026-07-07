@@ -1,14 +1,31 @@
 // src/components/InputField/InputField.stories.tsx
 
-import { useState } from "react";
+import { useState, type ComponentProps } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { InputField } from "./inputField";
-import { formatNumberInput } from "@/lib/formatNumbers";
+import { currencies, type Currency } from "@/shared/constants/flagIcons";
+import { unformatNumberInput } from "@/lib/formatNumbers";
 
-function NumberInputStory(args: React.ComponentProps<typeof InputField>) {
-  const [value, setValue] = useState(() =>
-    formatNumberInput(String(args.defaultValue ?? "")),
+const usdCurrency =
+  currencies.find((currency) => currency.code === "USD") ?? currencies[0];
+
+const eurCurrency =
+  currencies.find((currency) => currency.code === "EUR") ?? currencies[0];
+
+function getInitialValue(value: unknown) {
+  if (value === "" || value === undefined || value === null) return "";
+
+  return Number(unformatNumberInput(String(value)));
+}
+
+function NumberInputStory(args: ComponentProps<typeof InputField>) {
+  const [value, setValue] = useState<number | string>(() =>
+    getInitialValue(args.defaultValue),
+  );
+
+  const [currency, setCurrency] = useState<Currency>(
+    args.currency ?? usdCurrency,
   );
 
   return (
@@ -21,19 +38,22 @@ function NumberInputStory(args: React.ComponentProps<typeof InputField>) {
     >
       <InputField
         {...args}
+        currency={currency}
+        setCurrency={setCurrency}
         value={value}
         inputMode="decimal"
-        onChange={(event) => {
-          setValue(formatNumberInput(event.target.value));
-        }}
+        onValueChange={setValue}
       />
     </div>
   );
 }
 
 function MultipleFieldsStory() {
-  const [sendValue, setSendValue] = useState("");
-  const [receiveValue, setReceiveValue] = useState("");
+  const [sendValue, setSendValue] = useState<number | string>("");
+  const [receiveValue, setReceiveValue] = useState<number | string>("");
+
+  const [sendCurrency, setSendCurrency] = useState<Currency>(usdCurrency);
+  const [receiveCurrency, setReceiveCurrency] = useState<Currency>(eurCurrency);
 
   return (
     <div
@@ -51,9 +71,12 @@ function MultipleFieldsStory() {
         label="SEND"
         placeholder="0"
         value={sendValue}
+        currency={sendCurrency}
+        setCurrency={setSendCurrency}
         inputMode="decimal"
-        onChange={(event) => {
-          setSendValue(formatNumberInput(event.target.value));
+        onValueChange={(value) => {
+          setSendValue(value);
+          setReceiveValue(value * 0.92);
         }}
       />
 
@@ -63,10 +86,10 @@ function MultipleFieldsStory() {
         placeholder="0"
         receive
         value={receiveValue}
+        currency={receiveCurrency}
+        setCurrency={setReceiveCurrency}
         inputMode="decimal"
-        onChange={(event) => {
-          setReceiveValue(formatNumberInput(event.target.value));
-        }}
+        onValueChange={setReceiveValue}
       />
     </div>
   );
@@ -86,6 +109,9 @@ const meta = {
     defaultValue: "",
     disabled: false,
     receive: false,
+    isLoading: false,
+    currency: usdCurrency,
+    setCurrency: () => {},
   },
   argTypes: {
     id: {
@@ -109,6 +135,10 @@ const meta = {
       control: "boolean",
       description: "Applies the receive input style",
     },
+    isLoading: {
+      control: "boolean",
+      description: "Shows loader when receive is true",
+    },
     className: {
       table: {
         disable: true,
@@ -119,7 +149,17 @@ const meta = {
         disable: true,
       },
     },
-    onChange: {
+    currency: {
+      table: {
+        disable: true,
+      },
+    },
+    setCurrency: {
+      table: {
+        disable: true,
+      },
+    },
+    onValueChange: {
       table: {
         disable: true,
       },
@@ -164,6 +204,16 @@ export const ReceiveWithDecimal: Story = {
     label: "RECEIVE",
     defaultValue: "853.3",
     receive: true,
+  },
+};
+
+export const ReceiveLoading: Story = {
+  args: {
+    id: "receive-loading",
+    label: "RECEIVE",
+    defaultValue: "853.3",
+    receive: true,
+    isLoading: true,
   },
 };
 

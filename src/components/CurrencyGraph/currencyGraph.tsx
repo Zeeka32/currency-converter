@@ -17,15 +17,22 @@ import {
   type ChartConfig,
 } from "@/components/ui/Charts/chart";
 
-import { useCurrencyConverter } from "@/shared/contexts/currencyConverterContext";
-
-import {
-  getGraphStats,
-  useCurrencyGraphData,
-  type GraphRange,
-} from "@/shared/api/frankfurter";
+import { getGraphStats, type GraphRange } from "@/shared/api/frankfurter";
 import SimpleLoader from "@/components/ui/InputField/SimpleLoader/simpleLoader";
 import type { CurrencyCode } from "@/shared/constants/flagIcons";
+
+type CurrencyGraphPoint = {
+  date: string;
+  rate: number;
+};
+
+type CurrencyGraphProps = {
+  data: CurrencyGraphPoint[];
+  isLoading: boolean;
+  baseCode: CurrencyCode;
+  quoteCode: CurrencyCode;
+  range: GraphRange;
+};
 
 const chartConfig = {
   rate: {
@@ -48,23 +55,13 @@ function formatDateLabel(value: string) {
   });
 }
 
-export function CurrencyGraph() {
-  const {
-    selectedGraphRange,
-    sourceCurrency: baseCurrency,
-    targetCurrency: quoteCurrency,
-  } = useCurrencyConverter();
-
-  const {
-    data = [],
-    isLoading,
-    isError,
-  } = useCurrencyGraphData({
-    base: baseCurrency.code as CurrencyCode,
-    quote: quoteCurrency.code as CurrencyCode,
-    range: selectedGraphRange as GraphRange,
-  });
-
+export function CurrencyGraph({
+  data,
+  isLoading,
+  baseCode,
+  quoteCode,
+  range,
+}: CurrencyGraphProps) {
   const stats = React.useMemo(() => getGraphStats(data), [data]);
 
   if (isLoading) {
@@ -77,26 +74,16 @@ export function CurrencyGraph() {
     );
   }
 
-  if (isError) {
-    return (
-      <Card className="pt-0 bg-[#202022]">
-        <CardContent className="h-62.5 flex items-center justify-center text-white">
-          Failed to load graph data
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
     <Card className="pt-0 bg-[#202022]">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="flex justify-between w-full items-center">
           <CardTitle className="text-[16px] text-white">
-            {baseCurrency.code}/{quoteCurrency.code}
+            {baseCode}/{quoteCode}
           </CardTitle>
 
           <CardDescription className="text-[14px]">
-            Last {formatNumber(stats.last)} · {selectedGraphRange}
+            Last {formatNumber(stats.last)} · {range}
           </CardDescription>
         </div>
       </CardHeader>
