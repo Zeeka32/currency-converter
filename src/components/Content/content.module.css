@@ -51,28 +51,32 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   position: relative;
-  background-color: var(--Neutral-500);
-  border-radius: var(--spacing-md);
   min-width: 48px;
   min-height: 48px;
-}
-.content-main .rate-section .rate-section-top .exchange-button:hover {
-  background-color: var(--Neutral-600);
+  cursor: pointer;
+  background-color: var(--Neutral-500);
+  border-radius: var(--spacing-md);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   transition: background-color 300ms ease;
 }
-.content-main .rate-section .rate-section-top .exchange-button:active:after {
+.content-main .rate-section .rate-section-top .exchange-button::after {
   content: "";
   position: absolute;
   inset: -1px;
-  display: block;
-  box-shadow: 0 0 0 2px var(--lime-500);
   border-radius: var(--spacing-md);
+  box-shadow: 0 0 0 2px var(--lime-500);
+  opacity: 0;
+  pointer-events: none;
+}
+.content-main .rate-section .rate-section-top .exchange-button:active::after {
+  opacity: 1;
 }
 .content-main .rate-section .rate-section-top .exchange-button img {
   width: 20px;
   height: 20px;
+  pointer-events: none;
 }
 .content-main .rate-section .rate-section-bottom {
   padding: var(--spacing-lg);
