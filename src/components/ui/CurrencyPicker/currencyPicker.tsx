@@ -78,25 +78,28 @@ export function CurrencyPicker({
 
         <PopoverContent
           align="end"
+          avoidCollisions={false}
           sideOffset={12}
           className={classes["popover-content"]}
         >
-          <div className={classes["search-wrapper"]}>
-            <img
-              src={SearchIcon}
-              alt=""
-              aria-hidden="true"
-              className={classes["search-icon"]}
-            />
+          <div className={classes["search-sticky"]}>
+            <div className={classes["search-wrapper"]}>
+              <img
+                src={SearchIcon}
+                alt=""
+                aria-hidden="true"
+                className={classes["search-icon"]}
+              />
 
-            <input
-              value={searchValue}
-              onChange={(event) => setSearchValue(event.target.value)}
-              placeholder="Search currencies..."
-              className={classes["search-input"]}
-              autoComplete="off"
-              spellCheck={false}
-            />
+              <input
+                value={searchValue}
+                onChange={(event) => setSearchValue(event.target.value)}
+                placeholder="Search currencies..."
+                className={classes["search-input"]}
+                autoComplete="off"
+                spellCheck={false}
+              />
+            </div>
           </div>
 
           <CurrencySection
