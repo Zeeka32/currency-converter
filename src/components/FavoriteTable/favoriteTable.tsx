@@ -75,6 +75,7 @@ const FavoriteTable = ({ className = "", ...props }: FavoriteTableProps) => {
                 <NumberStack
                   headerNumber={latestRate ?? 0}
                   contentNumber={change ?? 0}
+                  isContentPercent
                 />
 
                 <FavoriteButton

@@ -22,6 +22,11 @@
       @media screen and (max-width: 530px) {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: var(--spacing-md);
+      }
+
+      @media screen and (max-width: 375px) {
+        gap: var(--spacing-lg);
       }
     }
 

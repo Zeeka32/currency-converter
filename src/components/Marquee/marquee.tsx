@@ -45,6 +45,15 @@ export function MarqueeView({
             change={item.change}
           />
         ))}
+        {items.map((item) => (
+          <MarqueeCard
+            key={`${item.from}-${item.to}`}
+            from={item.from}
+            to={item.to}
+            rate={item.rate}
+            change={item.change}
+          />
+        ))}
       </div>
     </div>
   );

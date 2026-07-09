@@ -10,6 +10,10 @@
   border: 1px var(--Neutral-400) solid;
   cursor: pointer;
 
+  @media screen and (max-width: 700px) {
+    border-radius: 12px;
+  }
+
   &:hover {
     background-color: var(--Neutral-600);
   }
@@ -46,6 +50,10 @@
   color: var(--Neutral-50);
 
   scrollbar-width: thin;
+
+  @media screen and (max-width: 768px) {
+    max-height: 300px;
+  }
 }
 
 .search-sticky {

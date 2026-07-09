@@ -34,21 +34,25 @@ const cards = ({
       title: "OPEN",
       value: open,
       change: "normal" as const,
+      isPercent: false,
     },
     {
       title: "LAST",
       value: last,
       change: "normal" as const,
+      isPercent: false,
     },
     {
       title: "CHANGE",
       value: change.toFixed(2),
       change: "change" as const,
+      isPercent: false,
     },
     {
       title: "% CHANGE",
       value: percentChange.toFixed(2),
       change: "%" as const,
+      isPercent: true,
     },
   ];
 };
@@ -95,6 +99,7 @@ function History() {
               number={Number(card.value)}
               title={card.title}
               isLoading={isLoadingState}
+              isPercent={card.isPercent}
             />
           ))}
         </div>

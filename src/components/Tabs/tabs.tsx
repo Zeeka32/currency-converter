@@ -108,8 +108,9 @@ function Tabs() {
           onSelectedValueChange={handleTabChange}
         />
       )}
-
-      {activeComponent?.render()}
+      <div key={activeTab} className={classes["active-tab"]}>
+        {activeComponent?.render()}
+      </div>
     </div>
   );
 }
