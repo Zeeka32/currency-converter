@@ -59,7 +59,7 @@ function Content() {
   function handleExchange() {
     const previousSourceCurrency = sourceCurrency;
 
-    setAmount(Math.round(conversionResult ?? 0));
+    setAmount(Number((conversionResult ?? 0).toFixed(2)));
     setSourceCurrency(targetCurrency);
     setTargetCurrency(previousSourceCurrency);
   }
