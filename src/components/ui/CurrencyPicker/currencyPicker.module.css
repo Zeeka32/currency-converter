@@ -59,7 +59,6 @@
   padding: 8px;
   background-color: color-mix(in srgb, var(--Neutral-500) 65%, transparent);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 
 .search-wrapper {
